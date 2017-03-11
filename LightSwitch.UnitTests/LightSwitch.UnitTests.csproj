@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A89056A6-1242-41E8-B21E-FB27234A82C8}</ProjectGuid>
+    <ProjectGuid>{78BBDDBF-9613-4C7C-A6F1-4EF9811A9F43}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>LightSwitch.UITests</RootNamespace>
-    <AssemblyName>LightSwitch.UITests</AssemblyName>
+    <RootNamespace>LightSwitch.UnitTests</RootNamespace>
+    <AssemblyName>LightSwitch.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,27 +29,15 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.UITest">
-      <HintPath>..\packages\Xamarin.UITest.2.0.7\lib\Xamarin.UITest.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\iOS\LightSwitch.iOS.csproj">
-      <Project>{EB2DED84-CDB2-4852-A19D-3070D98D3826}</Project>
-      <Name>LightSwitch.iOS</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Droid\LightSwitch.Droid.csproj">
-      <Project>{D69464C2-0451-4499-8884-EA181DC12B38}</Project>
-      <Name>LightSwitch.Droid</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests.cs" />
-    <Compile Include="AppInitializer.cs" />
+    <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">
+      <Project>{C6F5BE05-0AA8-4EEF-A90B-56A33B24EEFB}</Project>
+      <Name>LightSwitch</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
