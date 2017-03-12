@@ -5,7 +5,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(LightSwitch.iOS.FileHelper))]
 namespace LightSwitch.iOS
 {
-	public class FileHelper : IFileHelper
+	public class FileHelper : IDatabaseHelper
 	{
 		public FileHelper()
 		{
@@ -21,7 +21,9 @@ namespace LightSwitch.iOS
 				Directory.CreateDirectory(databasesFolder);
 			}
 
-			return Path.Combine(databasesFolder, filename);
+			string filePath = Path.Combine(databasesFolder, filename);
+
+			return filePath;
 		}
 	}
 }

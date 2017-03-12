@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SQLite;
 using Xamarin.Forms;
@@ -24,7 +25,7 @@ namespace LightSwitch
 
 		private LightBulbDatabaseService()
 		{
-			var dbPath = DependencyService.Get<IFileHelper>().GetDatabasePath("LightBulbSQLite.db3");
+			var dbPath = DependencyService.Get<IDatabaseHelper>().GetDatabasePath("LightBulbSQLite.db3");
 			database = new SQLiteAsyncConnection(dbPath);
 			database.CreateTableAsync<LightBulb>().Wait();
 		}
@@ -37,6 +38,11 @@ namespace LightSwitch
 		public Task AddLightBulbAsync(LightBulb lightBulb)
 		{
 			return database.InsertAsync(lightBulb);
+		}
+
+		public Task RemoveLightBulbAsync(LightBulb lightBulb)
+		{
+			return database.DeleteAsync(lightBulb);
 		}
 
 	}

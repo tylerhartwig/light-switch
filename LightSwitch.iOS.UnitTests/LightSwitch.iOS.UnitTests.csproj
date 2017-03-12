@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG;__UNIT_TEST__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -32,10 +32,10 @@
     <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;__UNIT_TEST__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -49,10 +49,10 @@
     <MtouchTlsProvider>Default</MtouchTlsProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;__UNIT_TESTING__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -68,7 +68,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\iPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;DEBUG;__UNIT_TEST__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -131,12 +131,16 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
+    <Compile Include="DependencyImplementation\FileHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">
       <Project>{C6F5BE05-0AA8-4EEF-A90B-56A33B24EEFB}</Project>
       <Name>LightSwitch</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DependencyImplementation\" />
   </ItemGroup>
   <Import Project="..\LightSwitch.iOS.Shared\LightSwitch.iOS.Shared.projitems" Label="Shared" Condition="Exists('..\LightSwitch.iOS.Shared\LightSwitch.iOS.Shared.projitems')" />
   <Import Project="..\LightSwitch.UnitTestsshare\LightSwitch.UnitTestsshare.projitems" Label="Shared" Condition="Exists('..\LightSwitch.UnitTestsshare\LightSwitch.UnitTestsshare.projitems')" />
