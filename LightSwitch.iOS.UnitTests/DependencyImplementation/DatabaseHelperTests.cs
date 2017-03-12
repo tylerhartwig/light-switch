@@ -5,12 +5,12 @@ using NUnit.Framework;
 namespace LightSwitch.iOS.UnitTests
 {
 	[TestFixture]
-	public class FileHelperTests
+	public class DatabaseHelperTests
 	{
 		[Test]
 		public void TestGetDatabasePath()
 		{
-			var fileHelper = new FileHelper();
+			var fileHelper = new DatabaseHelper();
 
 			var databaseName = "database.db";
 			var filePath = Path.Combine("Library", "Databases", databaseName);
@@ -19,11 +19,6 @@ namespace LightSwitch.iOS.UnitTests
 			var createdDirectory = returnedPath.Replace(databaseName, "");
 			Assert.True(returnedPath.EndsWith(filePath, StringComparison.CurrentCulture));
 			Assert.True(Directory.Exists(createdDirectory));
-		}
-
-		[Test]
-		public void TestDeleteDatabase()
-		{
 		}
 	}
 }

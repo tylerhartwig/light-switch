@@ -9,7 +9,7 @@
     <Import_RootNamespace>LightSwitch.iOS.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)DependencyImplementation\FileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyImplementation\DatabaseHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)DependencyImplementation\" />

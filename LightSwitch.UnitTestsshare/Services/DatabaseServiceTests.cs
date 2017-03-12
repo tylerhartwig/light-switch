@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace LightSwitch.UnitTests
 {
 	[TestFixture]
-	public class LightBulbDatabaseServiceTests
+	public class DatabaseServiceTests
 	{
-		private LightBulbDatabaseService serviceReference;
+		private DatabaseService serviceReference;
 		private readonly LightBulb[] sampleData = new LightBulb[]{
 			new LightBulb{},
 			new LightBulb{},
@@ -19,18 +20,19 @@ namespace LightSwitch.UnitTests
 		public void TestSetup()
 		{
 			GetDatabaseSingleton();
+			serviceReference.InitializeAsync().Wait();
 		}
 
 		public void GetDatabaseSingleton()
 		{
-			serviceReference = LightBulbDatabaseService.Instance;
+			serviceReference = DatabaseService.Instance;
 			Assert.NotNull(serviceReference);
 		}
 
 		[TearDown]
-		public void RemoveDatabase()
+		public void ResetDatabase()
 		{
-
+			serviceReference.ResetDatabaseAsync().Wait();
 		}
 
 		[Test]
@@ -61,7 +63,27 @@ namespace LightSwitch.UnitTests
 		[Test]
 		public void TestGetAllLightBulbFromDatabase()
 		{
+			var taskList = new List<Task>();
+			var expectedCount = sampleData.Length;
+			int actualCount = 0;
 
+			foreach (var bulb in sampleData)
+			{
+				taskList.Add(serviceReference.AddLightBulbAsync(bulb));
+			}
+
+			Task.WhenAll(taskList).Wait();
+			serviceReference.GetLightBulbCountAsync().ContinueWith(t => actualCount = t.Result).Wait();
+			Assert.AreEqual(expectedCount, actualCount, "Did not add all sample data to database");
+
+			List<LightBulb> lightBulbs = null;
+			serviceReference.GetAllLightBulbsAsync().ContinueWith(t => lightBulbs = t.Result).Wait();
+			Assert.NotNull(lightBulbs, "Failed to retrieve all light bulbs from database");
+
+			foreach (var bulb in sampleData)
+			{
+				Assert.True(lightBulbs.Contains(bulb), "Returned set does not include all sample data");
+			}
 		}
 	}
 }

@@ -131,7 +131,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
-    <Compile Include="DependencyImplementation\FileHelperTests.cs" />
+    <Compile Include="DependencyImplementation\DatabaseHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">

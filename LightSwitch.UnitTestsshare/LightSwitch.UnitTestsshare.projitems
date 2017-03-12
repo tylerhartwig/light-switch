@@ -14,6 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Models\LightBulbTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\LightBulbDatabaseServiceTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DatabaseServiceTests.cs" />
   </ItemGroup>
 </Project>
