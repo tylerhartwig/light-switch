@@ -10,10 +10,10 @@ namespace LightSwitch.UnitTests
 	public class DatabaseServiceTests
 	{
 		private DatabaseService serviceReference;
-		private readonly LightBulb[] sampleData = new LightBulb[]{
-			new LightBulb{},
-			new LightBulb{},
-			new LightBulb{}
+		private readonly LightBulbDO[] sampleData = new LightBulbDO[]{
+			new LightBulbDO{},
+			new LightBulbDO{},
+			new LightBulbDO{}
 		};
 
 		[SetUp]
@@ -38,7 +38,7 @@ namespace LightSwitch.UnitTests
 		[Test]
 		public void TestAddLightBulbToDatabase()
 		{
-			var lightBulb = new LightBulb();
+			var lightBulb = new LightBulbDO();
 			int beforeCount = 0, afterCount = 0;
 
 			serviceReference.GetLightBulbCountAsync().ContinueWith(t => beforeCount = t.Result).Wait();
@@ -50,7 +50,7 @@ namespace LightSwitch.UnitTests
 		[Test]
 		public void TestRemoveLightBulbFromDatabase()
 		{
-			var lightBulb = new LightBulb();
+			var lightBulb = new LightBulbDO();
 			int beforeCount = 0, afterCount = 0;
 
 			serviceReference.AddLightBulbAsync(lightBulb).Wait();
@@ -76,7 +76,7 @@ namespace LightSwitch.UnitTests
 			serviceReference.GetLightBulbCountAsync().ContinueWith(t => actualCount = t.Result).Wait();
 			Assert.AreEqual(expectedCount, actualCount, "Did not add all sample data to database");
 
-			List<LightBulb> lightBulbs = null;
+			List<LightBulbDO> lightBulbs = null;
 			serviceReference.GetAllLightBulbsAsync().ContinueWith(t => lightBulbs = t.Result).Wait();
 			Assert.NotNull(lightBulbs, "Failed to retrieve all light bulbs from database");
 

@@ -43,35 +43,35 @@ namespace LightSwitch
 		public Task InitializeAsync()
 		{
 			return Task.WhenAll(new Task[]{
-				database.CreateTableAsync<LightBulb>()
+				database.CreateTableAsync<LightBulbDO>()
 			});
 		}
 
 		public Task ResetDatabaseAsync()
 		{
 			return Task.WhenAll(new Task[] {
-				database.DropTableAsync<LightBulb>()
+				database.DropTableAsync<LightBulbDO>()
 			});
 		}
 
 		public Task<int> GetLightBulbCountAsync()
 		{
-			return database.Table<LightBulb>().CountAsync();
+			return database.Table<LightBulbDO>().CountAsync();
 		}
 
-		public Task AddLightBulbAsync(LightBulb lightBulb)
+		public Task AddLightBulbAsync(LightBulbDO lightBulb)
 		{
 			return database.InsertAsync(lightBulb);
 		}
 
-		public Task RemoveLightBulbAsync(LightBulb lightBulb)
+		public Task RemoveLightBulbAsync(LightBulbDO lightBulb)
 		{
 			return database.DeleteAsync(lightBulb);
 		}
 
-		public Task<List<LightBulb>> GetAllLightBulbsAsync()
+		public Task<List<LightBulbDO>> GetAllLightBulbsAsync()
 		{
-			return database.Table<LightBulb>().ToListAsync();
+			return database.Table<LightBulbDO>().ToListAsync();
 		}
 	}
 }
