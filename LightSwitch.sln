@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightSwitch.Droid.UnitTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightSwitch.iOS.UnitTests", "LightSwitch.iOS.UnitTests\LightSwitch.iOS.UnitTests.csproj", "{EB2AA83D-B0C3-4491-9C48-80DDCEE21FCD}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LightSwitch.UnitTests", "LightSwitch.UnitTestsshare\LightSwitch.UnitTests.shproj", "{B2FACB5B-6005-479F-940B-205DCD38F4FF}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LightSwitch.UnitTests", "LightSwitch.UnitTests\LightSwitch.UnitTests.shproj", "{B2FACB5B-6005-479F-940B-205DCD38F4FF}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LightSwitch.iOS.Shared", "LightSwitch.iOS.Shared\LightSwitch.iOS.Shared.shproj", "{644AA102-4E26-4D6F-8796-1F2268790400}"
 EndProject
