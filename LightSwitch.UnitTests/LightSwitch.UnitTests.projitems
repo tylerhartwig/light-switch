@@ -11,9 +11,14 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
+    <Folder Include="$(MSBuildThisFileDirectory)DataObjects\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Models\LightBulbTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DatabaseServiceTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MessageTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\QuoteTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ContactTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataObjects\LightBulbDOTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LightBulbTests.cs" />
   </ItemGroup>
 </Project>

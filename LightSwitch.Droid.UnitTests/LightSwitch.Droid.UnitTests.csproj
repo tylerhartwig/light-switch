@@ -64,6 +64,5 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
   </ItemGroup>
-  <Import Project="..\LightSwitch.UnitTestsshare\LightSwitch.UnitTestsshare.projitems" Label="Shared" Condition="Exists('..\LightSwitch.UnitTestsshare\LightSwitch.UnitTestsshare.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
