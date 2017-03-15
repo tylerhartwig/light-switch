@@ -7,27 +7,20 @@ namespace LightSwitch.UnitTests
 	public class LightBulbTests
 	{
 		[Test]
-		public void TestLightBulbDefaultConstructor()
+		public void TestDefaultConstructor()
 		{
 			var lightBulb = new LightBulb();
 			Assert.NotNull(lightBulb);
 		}
 
 		[Test]
-		public void TestEqualObjects()
+		public void TestGetSetName()
 		{
-			var lightBulb1 = new LightBulb { ID = 1 };
-			var lightBulb2 = new LightBulb { ID = 1 };
+			var name = "test name";
+			var lightBulb = new LightBulb();
 
-			Assert.AreEqual(lightBulb1, lightBulb2);
+			lightBulb.Name = name;
+			Assert.AreEqual(name, lightBulb.Name);
 		}
-
-		[Test]
-		public void TestUnEqualObjects()
-		{
-			var lightBulb1 = new LightBulb { ID = 0 };
-			var lightBulb2 = new LightBulb { ID = 1 };
-
-			Assert.AreNotEqual(lightBulb1, lightBulb2);
-		}	}
+	}
 }
