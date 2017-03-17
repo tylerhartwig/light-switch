@@ -6,6 +6,14 @@ namespace LightSwitch.UnitTests
 	[TestFixture]
 	public class MessageTests
 	{
+		private Message testObject;
+
+		[SetUp]
+		public void CreateTestObject()
+		{
+			testObject = new Message();
+		}
+
 		[Test]
 		public void TestDefaultConstructor()
 		{
@@ -14,12 +22,15 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Test]
-		public void TestMessageGetSetText()
+		public void TestProperties()
 		{
+			var id = 777;
+			testObject.ID = id;
+			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
+
 			var text = "test text";
-			var message = new Message();
-			message.Text = text;
-			Assert.AreEqual(text, message.Text);
+			testObject.Text = text;
+			Assert.AreEqual(text, testObject.Text, "Set Text does not match Get Text");
 		}
 	}
 }
