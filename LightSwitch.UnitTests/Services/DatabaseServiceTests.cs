@@ -11,9 +11,9 @@ namespace LightSwitch.UnitTests
 	{
 		private DatabaseService serviceReference;
 		private readonly LightBulbDO[] sampleData = new LightBulbDO[]{
-			new LightBulbDO{},
-			new LightBulbDO{},
-			new LightBulbDO{}
+			new LightBulbDO{ Name = "sample name 1" },
+			new LightBulbDO{ Name = "sample name 2" },
+			new LightBulbDO{ Name = "sample name 3" }
 		};
 
 		[SetUp]
