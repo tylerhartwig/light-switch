@@ -20,5 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ContactTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataObjects\LightBulbDOTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LightBulbTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataObjects\ContactDOTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataObjects\MessageDOTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataObjects\QuoteDOTests.cs" />
   </ItemGroup>
 </Project>

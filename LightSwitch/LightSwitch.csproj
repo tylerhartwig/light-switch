@@ -46,6 +46,9 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="DataObjects\LightBulbDO.cs" />
     <Compile Include="Models\LightBulb.cs" />
+    <Compile Include="DataObjects\ContactDO.cs" />
+    <Compile Include="DataObjects\MessageDO.cs" />
+    <Compile Include="DataObjects\QuoteDO.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
