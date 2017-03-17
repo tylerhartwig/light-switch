@@ -6,6 +6,14 @@ namespace LightSwitch.UnitTests
 	[TestFixture]
 	public class ContactTests
 	{
+		private Contact testObject;
+
+		[SetUp]
+		public void CreateTestObject()
+		{
+			testObject = new Contact();
+		}
+
 		[Test]
 		public void TestDefaultConstructor()
 		{
@@ -14,13 +22,15 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Test]
-		public void TestGetSetName()
+		public void TestProperties()
 		{
-			var name = "test name";
-			var contact = new Contact();
+			var id = 777;
+			testObject.ID = id;
+			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
 
-			contact.Name = name;
-			Assert.AreEqual(name, contact.Name);
+			var name = "test name";
+			testObject.Name = name;
+			Assert.AreEqual(name, testObject.Name, "Set Name does not match Get Name");
 		}
 	}
 }
