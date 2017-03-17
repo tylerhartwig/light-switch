@@ -6,29 +6,35 @@ namespace LightSwitch.UnitTests
 	[TestFixture]
 	public class QuoteTests
 	{
+		private Quote testObject;
+
+		[SetUp]
+		public void CreateTestObject()
+		{
+			testObject = new Quote();
+		}
+
 		[Test]
 		public void TestDefaultConstructor()
 		{
 			var quote = new Quote();
-			Assert.NotNull(quote);
+			Assert.NotNull(quote, "Default constructor failed to create object");
 		}
 
 		[Test]
-		public void TestGetSetText()
+		public void TestProperties()
 		{
+			var id = 777;
+			testObject.ID = id;
+			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
+
 			var text = "test text";
-			var quote = new Quote();
-			quote.Text = text;
-			Assert.AreEqual(text, quote.Text);
-		}
+			testObject.Text = text;
+			Assert.AreEqual(text, testObject.Text, "Set Text does not match Get Text");
 
-		[Test]
-		public void TestGetSetReference()
-		{
 			var reference = "test reference";
-			var quote = new Quote();
-			quote.Reference = reference;
-			Assert.AreEqual(reference, quote.Reference);
+			testObject.Reference = reference;
+			Assert.AreEqual(reference, testObject.Reference, "Set Reference does not match Get Reference");
 		}
 	}
 }
