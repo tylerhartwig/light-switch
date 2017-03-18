@@ -1,27 +1,18 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace LightSwitch.UnitTests
 {
-	[TestFixture]
 	public class ContactDOTests
 	{
-		private ContactDO testObject;
-
-		[SetUp]
-		public void CreateTestObject()
-		{
-			testObject = new ContactDO();
-		}
-
-		[Test]
+		[Fact]
 		public void TestDefaultConstructor()
 		{
 			var contactDO = new ContactDO();
-			Assert.NotNull(contactDO, "Default constructor returned null");
+			Assert.NotNull(contactDO);
 		}
 
-		[Test]
+		[Fact]
 		public void TestContactConstructor() 
 		{
 			var contact = new Contact
@@ -31,22 +22,24 @@ namespace LightSwitch.UnitTests
 			};
 
 			var contactDO = new ContactDO(contact);
-			Assert.NotNull(contactDO, "Contact Constructor failed to create an object");
+			Assert.NotNull(contactDO);
 
-			Assert.AreEqual(contact.ID, contactDO.ID, "Contact Constructor failed to duplicate ID");
-			Assert.AreEqual(contact.Name, contactDO.Name, "Contact Constructor failed to duplicate Name");
+			Assert.Equal(contact.ID, contactDO.ID);
+			Assert.Equal(contact.Name, contactDO.Name);
 		}
 
-		[Test]
+		[Fact]
 		public void TestProperties()
 		{
+			var testObject = new ContactDO();
+
 			var id = 777;
 			testObject.ID = id;
-			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
+			Assert.Equal(id, testObject.ID);
 
 			var name = "test name";
 			testObject.Name = name;
-			Assert.AreEqual(name, testObject.Name, "Set Name does not match Get Name");
+			Assert.Equal(name, testObject.Name);
 		}	
 	}
 }

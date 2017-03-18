@@ -1,27 +1,18 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace LightSwitch.UnitTests
 {
-	[TestFixture]
 	public class LightBulbDOTests
 	{
-		private LightBulbDO testObject;
-
-		[SetUp]
-		public void CreateLightBulbDO()
-		{
-			testObject = new LightBulbDO();
-		}
-
-		[Test]
+		[Fact]
 		public void TestDefaultConstructor()
 		{
 			var lightBulbDO = new LightBulbDO();
-			Assert.NotNull(lightBulbDO, "Default Constructor failed to create object");
+			Assert.NotNull(lightBulbDO);
 		}
 
-		[Test]
+		[Fact]
 		public void TestLightBulbConstructor()
 		{
 			var name = "test name";
@@ -32,57 +23,58 @@ namespace LightSwitch.UnitTests
 			};
 
 			var lightBulbDO = new LightBulbDO(lightBulb);
-			Assert.NotNull(lightBulbDO, "LightBulbConstructor failed to create an object");
+			Assert.NotNull(lightBulbDO);
 
-			Assert.AreEqual(lightBulb.ID, lightBulbDO.ID, "LightBulb Constructor failed to duplicate ID");
-			Assert.AreEqual(lightBulb.Name, lightBulbDO.Name, "LightBulb Constructor failed to duplicate Name");
+			Assert.Equal(lightBulb.ID, lightBulbDO.ID);
+			Assert.Equal(lightBulb.Name, lightBulbDO.Name);
 
 		}
 
-		[Test]
+		[Fact]
 		public void TestProperties()
 		{
+			var testObject = new LightBulbDO();
 			var id = 777;
 			testObject.ID = id;
-			Assert.AreEqual(id, testObject.ID, "Failed to set or get ID they are unequal");
+			Assert.Equal(id, testObject.ID);
 
 			var name = "test name";
 			testObject.Name = name;
-			Assert.AreEqual(name, testObject.Name, "Failed to set or get Name, they are unequal");
+			Assert.Equal(name, testObject.Name);
 		}
 
-		[Test]
+		[Fact]
 		public void TestEqualObjects()
 		{
 
 			var lightBulbDO1 = new LightBulbDO();
 			var lightBulbDO2 = new LightBulbDO();
 
-			Assert.AreEqual(lightBulbDO1, lightBulbDO2, "Equal DO objects are not equal");
+			Assert.Equal(lightBulbDO1, lightBulbDO2);
 
 			lightBulbDO1.ID = 1;
 			lightBulbDO2.ID = 1;
 
-			Assert.AreEqual(lightBulbDO1, lightBulbDO2, "Equal DO objects are not equal after ID change");
+			Assert.Equal(lightBulbDO1, lightBulbDO2);
 
 			var name = "test name";
 			lightBulbDO1.Name = name;
 			lightBulbDO2.Name = name;
 
-			Assert.AreEqual(lightBulbDO1, lightBulbDO2, "Equal DO objects are not equal after name change");
+			Assert.Equal(lightBulbDO1, lightBulbDO2);
 		}
 
-		[Test]
+		[Fact]
 		public void TestUnEqualObjects()
 		{
 			var lightBulbDO1 = new LightBulbDO { ID = 0 };
 			var lightBulbDO2 = new LightBulbDO { ID = 1 };
-			Assert.AreNotEqual(lightBulbDO1, lightBulbDO2, "UnEqual DO objects are equal with an ID change");
+			Assert.NotEqual(lightBulbDO1, lightBulbDO2);
 
 			lightBulbDO1.ID = lightBulbDO2.ID;
 			lightBulbDO1.Name = "test name 1";
 			lightBulbDO2.Name = "test name 2";
-			Assert.AreNotEqual(lightBulbDO1, lightBulbDO2, "UnEqual DO objects are equal with an Name change");
+			Assert.NotEqual(lightBulbDO1, lightBulbDO2);
 		}
 
 	}

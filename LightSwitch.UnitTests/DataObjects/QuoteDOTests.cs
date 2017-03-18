@@ -1,27 +1,18 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace LightSwitch.UnitTests
 {
-	[TestFixture]
 	public class QuoteDOTests
 	{
-		private QuoteDO testObject;
-
-		[SetUp]
-		public void CreateTestObject()
-		{
-			testObject = new QuoteDO();
-		}
-
-		[Test]
+		[Fact]
 		public void TestDefaultConstructor()
 		{
 			var quoteDO = new QuoteDO();
 			Assert.NotNull(quoteDO);
 		}
 
-		[Test]
+		[Fact]
 		public void TestQuoteConstructor()
 		{
 			var quote = new Quote
@@ -32,26 +23,28 @@ namespace LightSwitch.UnitTests
 			};
 
 			var quoteDO = new QuoteDO(quote);
-			Assert.NotNull(quoteDO, "Quote Constructor failed to create an object");
-			Assert.AreEqual(quote.ID, quoteDO.ID, "Quote Constructor failed to duplicate ID");
-			Assert.AreEqual(quote.Text, quoteDO.Text, "Quote Constructor failed to duplicate Text");
-			Assert.AreEqual(quote.Reference, quoteDO.Reference, "Quote Constructor failed to duplicate Reference");
+			Assert.NotNull(quoteDO);
+			Assert.Equal(quote.ID, quoteDO.ID);
+			Assert.Equal(quote.Text, quoteDO.Text);
+			Assert.Equal(quote.Reference, quoteDO.Reference);
 		}
 
-		[Test]
+		[Fact]
 		public void TestProperties()
 		{
+			var testObject = new QuoteDO();
+
 			var id = 777;
 			testObject.ID = id;
-			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
+			Assert.Equal(id, testObject.ID);
 
 			var text = "test text";
 			testObject.Text = text;
-			Assert.AreEqual(text, testObject.Text, "Set Text does not match Get Text");
+			Assert.Equal(text, testObject.Text);
 
 			var reference = "test reference";
 			testObject.Reference = reference;
-			Assert.AreEqual(reference, testObject.Reference, "Set Reference does not match Get Reference");
+			Assert.Equal(reference, testObject.Reference);
 		}
 	}
 }

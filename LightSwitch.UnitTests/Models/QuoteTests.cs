@@ -1,40 +1,33 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace LightSwitch.UnitTests
 {
-	[TestFixture]
 	public class QuoteTests
 	{
-		private Quote testObject;
-
-		[SetUp]
-		public void CreateTestObject()
-		{
-			testObject = new Quote();
-		}
-
-		[Test]
+		[Fact]
 		public void TestDefaultConstructor()
 		{
 			var quote = new Quote();
-			Assert.NotNull(quote, "Default constructor failed to create object");
+			Assert.NotNull(quote);
 		}
 
-		[Test]
+		[Fact]
 		public void TestProperties()
 		{
+			var testObject = new Quote();
+
 			var id = 777;
 			testObject.ID = id;
-			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
+			Assert.Equal(id, testObject.ID);
 
 			var text = "test text";
 			testObject.Text = text;
-			Assert.AreEqual(text, testObject.Text, "Set Text does not match Get Text");
+			Assert.Equal(text, testObject.Text);
 
 			var reference = "test reference";
 			testObject.Reference = reference;
-			Assert.AreEqual(reference, testObject.Reference, "Set Reference does not match Get Reference");
+			Assert.Equal(reference, testObject.Reference);
 		}
 	}
 }

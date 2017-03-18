@@ -1,36 +1,29 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace LightSwitch.UnitTests
 {
-	[TestFixture]
 	public class ContactTests
 	{
-		private Contact testObject;
-
-		[SetUp]
-		public void CreateTestObject()
-		{
-			testObject = new Contact();
-		}
-
-		[Test]
+		[Fact]
 		public void TestDefaultConstructor()
 		{
 			var contact = new Contact();
 			Assert.NotNull(contact);
 		}
 
-		[Test]
+		[Fact]
 		public void TestProperties()
 		{
+			var testObject = new Contact();
+
 			var id = 777;
 			testObject.ID = id;
-			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
+			Assert.Equal(id, testObject.ID);
 
 			var name = "test name";
 			testObject.Name = name;
-			Assert.AreEqual(name, testObject.Name, "Set Name does not match Get Name");
+			Assert.Equal(name, testObject.Name);
 		}
 	}
 }

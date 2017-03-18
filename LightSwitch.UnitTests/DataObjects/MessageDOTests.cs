@@ -1,27 +1,18 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 
 namespace LightSwitch.UnitTests
 {
-	[TestFixture]
 	public class MessageDOTests
 	{
-		private MessageDO testObject;
-
-		[SetUp]
-		public void CreateTestObject()
-		{
-			testObject = new MessageDO();
-		}
-
-		[Test]
+		[Fact]
 		public void TestDefaultConstructor()
 		{
 			var messageDO = new MessageDO();
-			Assert.NotNull(messageDO, "Default Constructor failed to create an object");
+			Assert.NotNull(messageDO);
 		}
 
-		[Test]
+		[Fact]
 		public void TestMessageConstructor()
 		{
 			var message = new Message
@@ -31,20 +22,22 @@ namespace LightSwitch.UnitTests
 			};
 
 			var messageDO = new MessageDO(message);
-			Assert.AreEqual(message.ID, messageDO.ID, "Message Constructor failed to duplicate ID");
-			Assert.AreEqual(message.Text, messageDO.Text, "Message Constructor failde to duplicate Text");
+			Assert.Equal(message.ID, messageDO.ID);
+			Assert.Equal(message.Text, messageDO.Text);
 		}
 
-		[Test]
+		[Fact]
 		public void TestProperties()
 		{
+			var testObject = new MessageDO();
+
 			var id = 777;
 			testObject.ID = id;
-			Assert.AreEqual(id, testObject.ID, "Set ID does not match Get ID");
+			Assert.Equal(id, testObject.ID);
 
 			var text = "Test text";
 			testObject.Text = text;
-			Assert.AreEqual(text, testObject.Text, "Set Text does not match Get Text");
+			Assert.Equal(text, testObject.Text);
 		}
 	}
 }
