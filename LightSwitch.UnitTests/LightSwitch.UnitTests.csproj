@@ -38,6 +38,7 @@
     <Compile Include="DataObjects\LightBulbDOTests.cs" />
     <Compile Include="DataObjects\MessageDOTests.cs" />
     <Compile Include="DataObjects\QuoteDOTests.cs" />
+    <Compile Include="Utilities\PropertyComparerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">
@@ -61,6 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
