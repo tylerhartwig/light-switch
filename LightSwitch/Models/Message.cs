@@ -9,5 +9,11 @@ namespace LightSwitch
 		public Message()
 		{
 		}
+
+		public Message(MessageDO messageDO)
+		{
+			ID = messageDO.ID;
+			Text = messageDO.Text;
+		}
 	}
 }

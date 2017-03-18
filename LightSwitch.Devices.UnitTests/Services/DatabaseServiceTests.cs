@@ -9,6 +9,7 @@ namespace LightSwitch.UnitTests
 	public class DatabaseServiceTests 
 	{
 		private DatabaseService serviceReference;
+
 		private readonly LightBulb[] sampleLightBulbData = new LightBulb[]
 		{
 			new LightBulb { Name = "sample name 1" },
@@ -21,6 +22,15 @@ namespace LightSwitch.UnitTests
 			new Contact { Name = "sample contact name 2" },
 			new Contact { Name = "sample contact name 3" },
 			new Contact { Name = "sample contact name 4" }
+		};
+		private readonly Message[] sampleMessageData = new Message[]
+		{
+			new Message { Text = "sample message text 1" },
+			new Message { Text = "sample message text 2" },
+			new Message { Text = "sample message text 3" },
+			new Message { Text = "sample message text 4" },
+			new Message { Text = "sample message text 5" },
+			new Message { Text = "sample message text 6" }
 		};
 
 		public DatabaseServiceTests()
@@ -149,6 +159,67 @@ namespace LightSwitch.UnitTests
 			foreach (var contact in sampleContactData)
 			{
 				Assert.True(contacts.Contains(contact, new PropertyComparer<Contact>()), "Returned contact set does not contain a piece of sample data");
+			}
+
+			await serviceReference.ResetDatabaseAsync();
+		}
+
+		[Fact]
+		public async Task TestAddMessageToDatabase()
+		{
+			await serviceReference.InitializeAsync();
+
+			var message = new Message();
+
+			var beforeCount = await serviceReference.GetMessageCountAsync();
+			await serviceReference.AddMessageAsync(message);
+			var afterCount = await serviceReference.GetMessageCountAsync();
+
+			Assert.Equal(beforeCount + 1, afterCount);
+
+			await serviceReference.ResetDatabaseAsync();
+		}
+
+		[Fact]
+		public async Task TestRemoveMessageFromDatabase()
+		{
+			await serviceReference.InitializeAsync();
+
+			var message = new Message();
+
+			await serviceReference.AddMessageAsync(message);
+			var beforeCount = await serviceReference.GetMessageCountAsync();
+			await serviceReference.RemoveMessageAsync(message);
+			var afterCount = await serviceReference.GetMessageCountAsync();
+
+			Assert.Equal(beforeCount - 1, afterCount);
+
+			await serviceReference.ResetDatabaseAsync();
+		}
+
+		[Fact]
+		public async Task TestGetAllMessagesFromDatabase()
+		{
+			await serviceReference.InitializeAsync();
+
+			var taskList = new List<Task>();
+			var expectedCount = sampleMessageData.Length;
+
+			foreach (var message in sampleMessageData)
+			{
+				taskList.Add(serviceReference.AddMessageAsync(message));
+			}
+
+			await Task.WhenAll(taskList);
+			var actualCount = await serviceReference.GetMessageCountAsync();
+			Assert.Equal(expectedCount, actualCount);
+
+			var messages = await serviceReference.GetAllMessagesAsync();
+			Assert.NotNull(messages);
+
+			foreach (var message in sampleMessageData)
+			{
+				Assert.True(messages.Contains(message, new PropertyComparer<Message>()), "Returned message set does not contain all sample data");
 			}
 
 			await serviceReference.ResetDatabaseAsync();

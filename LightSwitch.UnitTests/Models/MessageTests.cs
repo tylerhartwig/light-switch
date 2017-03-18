@@ -13,6 +13,21 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Fact]
+		public void TestMessageDOConstructor()
+		{
+			var messageDO = new MessageDO
+			{
+				ID = 777,
+				Text = "test text"
+			};
+
+			var message = new Message(messageDO);
+			Assert.NotNull(message);
+			Assert.Equal(messageDO.ID, message.ID);
+			Assert.Equal(messageDO.Text, message.Text);
+		}
+
+		[Fact]
 		public void TestProperties()
 		{
 			var testObject = new Message();

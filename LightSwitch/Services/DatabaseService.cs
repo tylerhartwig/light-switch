@@ -42,17 +42,15 @@ namespace LightSwitch
 
 		public Task InitializeAsync()
 		{
-			return Task.WhenAll(new Task[]{
-				database.CreateTableAsync<LightBulbDO>(),
-				database.CreateTableAsync<ContactDO>()
-			});
+			return database.CreateTablesAsync<LightBulbDO, ContactDO, MessageDO>();
 		}
 
 		public Task ResetDatabaseAsync()
 		{
 			return Task.WhenAll(new Task[] {
 				database.DropTableAsync<LightBulbDO>(),
-				database.DropTableAsync<ContactDO>()
+				database.DropTableAsync<ContactDO>(),
+				database.DropTableAsync<MessageDO>()
 			});
 		}
 
@@ -99,10 +97,10 @@ namespace LightSwitch
 			contact.ID = contactDO.ID;
 		}
 
-		public async Task RemoveContactAsync(Contact contact)
+		public Task RemoveContactAsync(Contact contact)
 		{
 			var contactDO = new ContactDO(contact);
-			await database.DeleteAsync(contactDO);
+			return database.DeleteAsync(contactDO);
 		}
 
 		public async Task<IEnumerable<Contact>> GetAllContactsAsync()
@@ -116,6 +114,37 @@ namespace LightSwitch
 			}
 
 			return contacts;
+		}
+
+		public Task<int> GetMessageCountAsync()
+		{
+			return database.Table<MessageDO>().CountAsync();
+		}
+
+		public async Task AddMessageAsync(Message message)
+		{
+			var messageDO = new MessageDO(message);
+			await database.InsertAsync(messageDO);
+			message.ID = messageDO.ID;
+		}
+
+		public Task RemoveMessageAsync(Message message)
+		{
+			var messageDO = new MessageDO(message);
+			return database.DeleteAsync(messageDO);
+		}
+
+		public async Task<IEnumerable<Message>> GetAllMessagesAsync()
+		{
+			var dataObjects = await database.Table<MessageDO>().ToListAsync();
+
+			var messages = new List<Message>();
+			foreach (var dataObject in dataObjects)
+			{
+				messages.Add(new Message(dataObject));
+			}
+
+			return messages;
 		}
 	}
 }
