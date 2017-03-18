@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
-using NUnit.Framework;
+using Xunit;
 
 namespace LightSwitch.iOS.UnitTests
 {
-	[TestFixture]
 	public class DatabaseHelperTests
 	{
-		[Test]
+		[Fact]
 		public void TestGetDatabasePath()
 		{
 			var fileHelper = new DatabaseHelper();
