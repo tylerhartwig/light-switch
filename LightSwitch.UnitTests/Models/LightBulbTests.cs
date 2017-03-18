@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace LightSwitch.UnitTests
@@ -39,6 +40,34 @@ namespace LightSwitch.UnitTests
 			var name = "test name";
 			testObject.Name = name;
 			Assert.Equal(name, testObject.Name);
+
+			var messages = new List<Message>();
+			messages.Add(new Message
+			{
+				ID = 777,
+				Text = "test text"
+			});
+			testObject.Messages = messages;
+			Assert.Equal(messages, testObject.Messages);
+
+			var contacts = new List<Contact>();
+			contacts.Add(new Contact
+			{
+				ID = 777,
+				Name = "test name"
+			});
+			testObject.Contacts = contacts;
+			Assert.Equal(contacts, testObject.Contacts);
+
+			var quotes = new List<Quote>();
+			quotes.Add(new Quote
+			{
+				ID = 777,
+				Text = "Test quote",
+				Reference = "test reference"
+			});
+			testObject.Quotes = quotes;
+			Assert.Equal(quotes, testObject.Quotes);
 		}
 	}
 }

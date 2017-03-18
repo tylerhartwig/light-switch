@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace LightSwitch
@@ -16,9 +18,28 @@ namespace LightSwitch
 			{
 				var xValue = property.GetValue(x);
 				var yValue = property.GetValue(y);
-				if (!xValue.Equals(yValue))
+
+				var propertyType = xValue.GetType();
+				var propertyTypeInfo = propertyType.GetTypeInfo();
+
+				if (propertyTypeInfo.ImplementedInterfaces.Contains(typeof(IEnumerable)) && propertyTypeInfo != typeof(String).GetTypeInfo())
 				{
-					return false;
+					var typeParameters = propertyType.GenericTypeArguments;
+
+					var seqEqualMethod = typeof(Enumerable).GetTypeInfo().DeclaredMethods.Where(m => m.Name == "SequenceEqual" && m.GetParameters().Count() == 2).First();
+					var realMethod = seqEqualMethod.MakeGenericMethod(new Type[] { typeParameters[0] });
+
+					if (!(bool)realMethod.Invoke(null, new object[] { xValue, yValue }))
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if (!xValue.Equals(yValue))
+					{
+						return false;
+					}
 				}
 			}
 
