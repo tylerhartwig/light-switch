@@ -10,12 +10,6 @@ namespace LightSwitch.UnitTests
 	{
 		private DatabaseService serviceReference;
 
-		private readonly LightBulb[] sampleLightBulbData = new LightBulb[]
-		{
-			new LightBulb { Name = "sample name 1" },
-			new LightBulb { Name = "sample name 2" },
-			new LightBulb { Name = "sample name 3" }
-		};
 		private readonly Contact[] sampleContactData = new Contact[]
 		{
 			new Contact { Name = "sample contact name 1" },
@@ -42,10 +36,12 @@ namespace LightSwitch.UnitTests
 			new Quote { Text = "inspiring quote 6", Reference = "Reference 4" },
 			new Quote { Text = "inspiring quote 7", Reference = "Reference 1" }
 		};
+		private LightBulb[] sampleLightBulbData;
 
 		public DatabaseServiceTests()
 		{
 			GetDatabaseSingleton();
+			SetupLightBulbData();
 		}
 
 		public void GetDatabaseSingleton()
@@ -53,6 +49,33 @@ namespace LightSwitch.UnitTests
 			serviceReference = DatabaseService.Instance;
 			Assert.NotNull(serviceReference);
 		}
+
+		public void SetupLightBulbData()
+		{
+			sampleLightBulbData = new LightBulb[]
+			{
+				new LightBulb 
+				{ 
+					Name = "sample name 1", 
+					Messages = new List<Message>(sampleMessageData), 
+					Contacts = new List<Contact>(sampleContactData), 
+					Quotes = new List<Quote>(sampleQuoteData) 
+				},
+				new LightBulb 
+				{ 
+					Name = "sample name 2",
+					Messages = new List<Message>(sampleMessageData), 
+					Contacts = new List<Contact>(sampleContactData), 
+					Quotes = new List<Quote>(sampleQuoteData) 
+				},
+				new LightBulb
+				{
+					Name = "sample name 3",
+					Messages = new List<Message>(sampleMessageData),
+					Contacts = new List<Contact>(sampleContactData),
+					Quotes = new List<Quote>(sampleQuoteData)
+				}
+			};		}
 
 		[Fact]
 		public async Task TestAddLightBulbToDatabase()
