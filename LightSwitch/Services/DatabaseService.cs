@@ -42,7 +42,7 @@ namespace LightSwitch
 
 		public Task InitializeAsync()
 		{
-			return database.CreateTablesAsync<LightBulbDO, ContactDO, MessageDO>();
+			return database.CreateTablesAsync<LightBulbDO, ContactDO, MessageDO, QuoteDO>();
 		}
 
 		public Task ResetDatabaseAsync()
@@ -50,7 +50,8 @@ namespace LightSwitch
 			return Task.WhenAll(new Task[] {
 				database.DropTableAsync<LightBulbDO>(),
 				database.DropTableAsync<ContactDO>(),
-				database.DropTableAsync<MessageDO>()
+				database.DropTableAsync<MessageDO>(),
+				database.DropTableAsync<QuoteDO>()
 			});
 		}
 
@@ -145,6 +146,37 @@ namespace LightSwitch
 			}
 
 			return messages;
+		}
+
+		public Task<int> GetQuoteCountAsync()
+		{
+			return database.Table<QuoteDO>().CountAsync();
+		}
+
+		public async Task AddQuoteAsync(Quote quote)
+		{
+			var quoteDO = new QuoteDO(quote);
+			await database.InsertAsync(quoteDO);
+			quote.ID = quoteDO.ID;
+		}
+
+		public Task RemoveQuoteAsync(Quote quote)
+		{
+			var quoteDO = new QuoteDO(quote);
+			return database.DeleteAsync(quoteDO);
+		}
+
+		public async Task<IEnumerable<Quote>> GetAllQuotesAsync()
+		{
+			var dataObjects = await database.Table<QuoteDO>().ToListAsync();
+
+			var quotes = new List<Quote>();
+			foreach (var dataObject in dataObjects)
+			{
+				quotes.Add(new Quote(dataObject));
+			}
+
+			return quotes;
 		}
 	}
 }

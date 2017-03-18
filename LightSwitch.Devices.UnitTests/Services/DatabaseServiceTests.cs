@@ -32,6 +32,16 @@ namespace LightSwitch.UnitTests
 			new Message { Text = "sample message text 5" },
 			new Message { Text = "sample message text 6" }
 		};
+		private readonly Quote[] sampleQuoteData = new Quote[]
+		{
+			new Quote { Text = "inspiring quote 1", Reference = "Reference 1" },
+			new Quote { Text = "inspiring quote 2", Reference = "Reference 1" },
+			new Quote { Text = "inspiring quote 3", Reference = "Reference 2" },
+			new Quote { Text = "inspiring quote 4", Reference = "Reference 3" },
+			new Quote { Text = "inspiring quote 5", Reference = "Reference 4" },
+			new Quote { Text = "inspiring quote 6", Reference = "Reference 4" },
+			new Quote { Text = "inspiring quote 7", Reference = "Reference 1" }
+		};
 
 		public DatabaseServiceTests()
 		{
@@ -220,6 +230,67 @@ namespace LightSwitch.UnitTests
 			foreach (var message in sampleMessageData)
 			{
 				Assert.True(messages.Contains(message, new PropertyComparer<Message>()), "Returned message set does not contain all sample data");
+			}
+
+			await serviceReference.ResetDatabaseAsync();
+		}
+
+		[Fact]
+		public async Task TestAddQuoteToDatabase()
+		{
+			await serviceReference.InitializeAsync();
+
+			var quote = new Quote();
+
+			var beforeCount = await serviceReference.GetQuoteCountAsync();
+			await serviceReference.AddQuoteAsync(quote);
+			var afterCount = await serviceReference.GetQuoteCountAsync();
+
+			Assert.Equal(beforeCount + 1, afterCount);
+
+			await serviceReference.ResetDatabaseAsync();
+		}
+
+		[Fact]
+		public async Task TestRemoveQuoteFromDatabase()
+		{
+			await serviceReference.InitializeAsync();
+
+			var quote = new Quote();
+
+			await serviceReference.AddQuoteAsync(quote);
+			var beforeCount = await serviceReference.GetQuoteCountAsync();
+			await serviceReference.RemoveQuoteAsync(quote);
+			var afterCount = await serviceReference.GetQuoteCountAsync();
+
+			Assert.Equal(beforeCount - 1, afterCount);
+
+			await serviceReference.ResetDatabaseAsync();
+		}
+
+		[Fact]
+		public async Task TestGetAllQuotesFromDatabase()
+		{
+			await serviceReference.InitializeAsync();
+
+			var taskList = new List<Task>();
+			var expectedCount = sampleQuoteData.Length;
+
+			foreach (var quote in sampleQuoteData)
+			{
+				taskList.Add(serviceReference.AddQuoteAsync(quote));
+			}
+
+			await Task.WhenAll(taskList);
+			var actualCount = await serviceReference.GetQuoteCountAsync();
+			Assert.Equal(expectedCount, actualCount);
+
+			var quotes = await serviceReference.GetAllQuotesAsync();
+			Assert.NotNull(quotes);
+
+			foreach (var quote in sampleQuoteData)
+			{
+				Assert.True(quotes.Contains(quote, new PropertyComparer<Quote>()), "Returned quote set does not contain all quotes in sample data");
 			}
 
 			await serviceReference.ResetDatabaseAsync();

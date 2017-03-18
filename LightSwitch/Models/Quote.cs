@@ -10,5 +10,12 @@ namespace LightSwitch
 		public Quote()
 		{
 		}
+
+		public Quote(QuoteDO quoteDO)
+		{
+			ID = quoteDO.ID;
+			Text = quoteDO.Text;
+			Reference = quoteDO.Reference;
+		}
 	}
 }

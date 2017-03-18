@@ -13,6 +13,22 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Fact]
+		public void TestQuoteDOConstructor()
+		{
+			var quoteDO = new QuoteDO
+			{
+				ID = 777,
+				Text = "test text",
+				Reference = "test reference"
+			};
+
+			var quote = new Quote(quoteDO);
+			Assert.Equal(quoteDO.ID, quote.ID);
+			Assert.Equal(quoteDO.Text, quote.Text);
+			Assert.Equal(quoteDO.Reference, quote.Reference);
+		}
+
+		[Fact]
 		public void TestProperties()
 		{
 			var testObject = new Quote();
