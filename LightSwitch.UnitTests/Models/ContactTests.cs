@@ -13,6 +13,20 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Fact]
+		public void TestContactDOConstructor()
+		{
+			var contactDO = new ContactDO
+			{
+				ID = 777,
+				Name = "Test name"
+			};
+
+			var contact = new Contact(contactDO);
+			Assert.Equal(contactDO.ID, contact.ID);
+			Assert.Equal(contactDO.Name, contact.Name);
+		}
+
+		[Fact]
 		public void TestProperties()
 		{
 			var testObject = new Contact();

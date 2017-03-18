@@ -43,14 +43,16 @@ namespace LightSwitch
 		public Task InitializeAsync()
 		{
 			return Task.WhenAll(new Task[]{
-				database.CreateTableAsync<LightBulbDO>()
+				database.CreateTableAsync<LightBulbDO>(),
+				database.CreateTableAsync<ContactDO>()
 			});
 		}
 
 		public Task ResetDatabaseAsync()
 		{
 			return Task.WhenAll(new Task[] {
-				database.DropTableAsync<LightBulbDO>()
+				database.DropTableAsync<LightBulbDO>(),
+				database.DropTableAsync<ContactDO>()
 			});
 		}
 
@@ -59,10 +61,11 @@ namespace LightSwitch
 			return database.Table<LightBulbDO>().CountAsync();
 		}
 
-		public Task AddLightBulbAsync(LightBulb lightBulb)
+		public async Task AddLightBulbAsync(LightBulb lightBulb)
 		{
 			var lightBulbDO = new LightBulbDO(lightBulb);
-			return database.InsertAsync(lightBulbDO);
+			await database.InsertAsync(lightBulbDO);
+			lightBulb.ID = lightBulbDO.ID;
 		}
 
 		public Task RemoveLightBulbAsync(LightBulb lightBulb)
@@ -71,9 +74,9 @@ namespace LightSwitch
 			return database.DeleteAsync(lightBulbDO);
 		}
 
-		public async Task<List<LightBulb>> GetAllLightBulbsAsync()
+		public async Task<IEnumerable<LightBulb>> GetAllLightBulbsAsync()
 		{
-			List<LightBulbDO> dataObjects = await database.Table<LightBulbDO>().ToListAsync();
+			var dataObjects = await database.Table<LightBulbDO>().ToListAsync();
 
 			var lightBulbs = new List<LightBulb>();
 			foreach (var dataObject in dataObjects)
@@ -82,6 +85,37 @@ namespace LightSwitch
 			}
 
 			return lightBulbs;
+		}
+
+		public Task<int> GetContactCountAsync()
+		{
+			return database.Table<ContactDO>().CountAsync();
+		}
+
+		public async Task AddContactAsync(Contact contact)
+		{
+			var contactDO = new ContactDO(contact);
+			await database.InsertAsync(contactDO);
+			contact.ID = contactDO.ID;
+		}
+
+		public async Task RemoveContactAsync(Contact contact)
+		{
+			var contactDO = new ContactDO(contact);
+			await database.DeleteAsync(contactDO);
+		}
+
+		public async Task<IEnumerable<Contact>> GetAllContactsAsync()
+		{
+			var dataObjects = await database.Table<ContactDO>().ToListAsync();
+
+			var contacts = new List<Contact>();
+			foreach (var dataObject in dataObjects)
+			{
+				contacts.Add(new Contact(dataObject));
+			}
+
+			return contacts;
 		}
 	}
 }

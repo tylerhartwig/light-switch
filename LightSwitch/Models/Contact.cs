@@ -9,5 +9,11 @@ namespace LightSwitch
 		public Contact()
 		{
 		}
+
+		public Contact(ContactDO contactDO)
+		{
+			ID = contactDO.ID;
+			Name = contactDO.Name;
+		}
 	}
 }
