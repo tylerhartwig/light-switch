@@ -9,5 +9,11 @@ namespace LightSwitch
 		public LightBulb()
 		{
 		}
+
+		public LightBulb(LightBulbDO lightBulbDO)
+		{
+			ID = lightBulbDO.ID;
+			Name = lightBulbDO.Name;
+		}
 	}
 }
