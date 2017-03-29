@@ -40,8 +40,18 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DatabaseService.cs" />
-    <Compile Include="Models\LightBulb.cs" />
     <Compile Include="Interfaces\IDatabaseHelper.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Quote.cs" />
+    <Compile Include="Models\Contact.cs" />
+    <Compile Include="DataObjects\LightBulbDO.cs" />
+    <Compile Include="Models\LightBulb.cs" />
+    <Compile Include="DataObjects\ContactDO.cs" />
+    <Compile Include="DataObjects\MessageDO.cs" />
+    <Compile Include="DataObjects\QuoteDO.cs" />
+    <Compile Include="DataObjects\LightBulbMessageDO.cs" />
+    <Compile Include="DataObjects\LightBulbQuoteDO.cs" />
+    <Compile Include="DataObjects\LightBulbContactDO.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
@@ -73,6 +83,7 @@
     <Folder Include="Services\" />
     <Folder Include="Models\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="DataObjects\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

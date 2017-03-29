@@ -1,26 +1,43 @@
 ﻿using System;
-using SQLite;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LightSwitch
 {
 	public class LightBulb
 	{
-		public LightBulb() { }
-
-		[PrimaryKey, AutoIncrement]
 		public int ID { get; set; }
+		public string Name { get; set; }
+		public List<Message> Messages { get; set; } = new List<Message>();
+		public List<Contact> Contacts { get; set; } = new List<Contact>();
+		public List<Quote> Quotes { get; set; } = new List<Quote>();
+
+		public LightBulb()
+		{
+		}
+
+		public LightBulb(LightBulbDO lightBulbDO)
+		{
+			ID = lightBulbDO.ID;
+			Name = lightBulbDO.Name;
+		}
 
 		public override bool Equals(object obj)
 		{
-			var leftBulb = this;
-			var rightBulb = (LightBulb)obj;
-
-			return leftBulb.ID.Equals(rightBulb.ID);
+			var rightLightBulb = (LightBulb)obj;
+			return ID == rightLightBulb.ID &&
+									   Name == rightLightBulb.Name &&
+									   compareIEnumerable(Contacts, rightLightBulb.Contacts) &&
+									   compareIEnumerable(Messages, rightLightBulb.Messages) &&
+									   compareIEnumerable(Quotes, rightLightBulb.Quotes);
 		}
 
-		public override int GetHashCode()
+		private Boolean compareIEnumerable<T>(IEnumerable<T> left, IEnumerable<T> right)
 		{
-			return ID;
+			var leftList = left.OrderBy(s => s).ToList();
+			var rightList = right.OrderBy(s => s).ToList();
+
+			return Enumerable.SequenceEqual(leftList, rightList);
 		}
 	}
 }
