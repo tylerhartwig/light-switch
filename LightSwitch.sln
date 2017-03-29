@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightSwitch.iOS", "iOS\Ligh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightSwitch.Droid", "Droid\LightSwitch.Droid.csproj", "{D69464C2-0451-4499-8884-EA181DC12B38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightSwitch.UITests", "UITests\LightSwitch.UITests.csproj", "{A89056A6-1242-41E8-B21E-FB27234A82C8}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LightSwitch.iOS.Shared", "LightSwitch.iOS.Shared\LightSwitch.iOS.Shared.shproj", "{644AA102-4E26-4D6F-8796-1F2268790400}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightSwitch.UnitTests", "LightSwitch.UnitTests\LightSwitch.UnitTests.csproj", "{EBB83FAA-B240-4AAD-B5FB-41DCDED56ACF}"
@@ -63,18 +61,6 @@ Global
 		{D69464C2-0451-4499-8884-EA181DC12B38}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{D69464C2-0451-4499-8884-EA181DC12B38}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{D69464C2-0451-4499-8884-EA181DC12B38}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Release|iPhone.Build.0 = Release|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{A89056A6-1242-41E8-B21E-FB27234A82C8}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{EBB83FAA-B240-4AAD-B5FB-41DCDED56ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EBB83FAA-B240-4AAD-B5FB-41DCDED56ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBB83FAA-B240-4AAD-B5FB-41DCDED56ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
