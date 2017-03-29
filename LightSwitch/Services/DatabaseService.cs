@@ -42,7 +42,15 @@ namespace LightSwitch
 
 		public Task InitializeAsync()
 		{
-			return database.CreateTablesAsync<LightBulbDO, ContactDO, MessageDO, QuoteDO>();
+			return database.CreateTablesAsync(CreateFlags.None, new Type[] {
+				typeof(LightBulbDO),
+				typeof(ContactDO),
+				typeof(MessageDO),
+				typeof(QuoteDO),
+				typeof(LightBulbMessageDO),
+				typeof(LightBulbQuoteDO),
+				typeof(LightBulbContactDO)
+			});
 		}
 
 		public Task ResetDatabaseAsync()
@@ -51,7 +59,10 @@ namespace LightSwitch
 				database.DropTableAsync<LightBulbDO>(),
 				database.DropTableAsync<ContactDO>(),
 				database.DropTableAsync<MessageDO>(),
-				database.DropTableAsync<QuoteDO>()
+				database.DropTableAsync<QuoteDO>(),
+				database.DropTableAsync<LightBulbMessageDO>(),
+				database.DropTableAsync<LightBulbQuoteDO>(),
+				database.DropTableAsync<LightBulbContactDO>()
 			});
 		}
 
@@ -63,14 +74,122 @@ namespace LightSwitch
 		public async Task AddLightBulbAsync(LightBulb lightBulb)
 		{
 			var lightBulbDO = new LightBulbDO(lightBulb);
+
 			await database.InsertAsync(lightBulbDO);
 			lightBulb.ID = lightBulbDO.ID;
+		}
+
+		private Task AddAllMessagesAsync(IEnumerable<Message> messages)
+		{
+			var taskList = new List<Task>();
+
+			foreach (var message in messages)
+			{
+				taskList.Add(new Task(async () =>
+				{
+					var messageDO = new MessageDO(message);
+					await database.InsertAsync(messageDO);
+					message.ID = messageDO.ID;
+				}));
+			}
+
+			return Task.WhenAll(taskList);
+		}
+
+		private Task AddAllContactsAsync(IEnumerable<Contact> contacts)
+		{
+			var taskList = new List<Task>();
+
+			foreach (var contact in contacts)
+			{
+				taskList.Add(new Task(async () =>
+				{
+					var contactDO = new ContactDO(contact);
+					await database.InsertAsync(contactDO);
+					contact.ID = contactDO.ID;
+				}));
+			}
+
+			return Task.WhenAll(taskList);
+		}
+
+		private Task AddAllQuotesAsync(IEnumerable<Quote> quotes)
+		{
+			var taskList = new List<Task>();
+
+			foreach (var quote in quotes)
+			{
+				taskList.Add(new Task(async () =>
+				{
+					var quoteDO = new QuoteDO(quote);
+					await database.InsertAsync(quoteDO);
+					quote.ID = quoteDO.ID;
+				}));
+			}
+
+			return Task.WhenAll(taskList);
 		}
 
 		public Task RemoveLightBulbAsync(LightBulb lightBulb)
 		{
 			var lightBulbDO = new LightBulbDO(lightBulb);
 			return database.DeleteAsync(lightBulbDO);
+		}
+
+		public async Task<LightBulb> GetLightBulbAsync(int ID)
+		{
+			var lightBulbDO = await database.Table<LightBulbDO>().Where(lb => lb.ID == ID).FirstOrDefaultAsync();
+			var lightBulb = new LightBulb(lightBulbDO);
+
+			await Task.WhenAll(new Task[] {
+				Task.Run(async () => lightBulb.Messages.AddRange(await getMessagesForLightBulb(ID))),
+				Task.Run(async () => lightBulb.Quotes.AddRange(await getQuotesForLightBulb(ID))),
+				Task.Run(async () => lightBulb.Contacts.AddRange(await getContactsForLightBulb(ID)))
+			});
+
+			return lightBulb;
+		}
+
+		private async Task<IEnumerable<Message>> getMessagesForLightBulb(int ID)
+		{
+			var messageAssociations = await database.Table<LightBulbMessageDO>().Where(lbm => lbm.LightBulbDO == ID).ToListAsync();
+			var messages = new List<Message>();
+
+			foreach (var messageAssociation in messageAssociations)
+			{
+				var messageDO = await database.Table<MessageDO>().Where(mDO => mDO.ID == messageAssociation.MessageDO).FirstOrDefaultAsync();
+				messages.Add(new Message(messageDO));
+			}
+
+			return messages;
+		}
+
+		private async Task<IEnumerable<Quote>> getQuotesForLightBulb(int ID)
+		{
+			var quoteAssociations = await database.Table<LightBulbQuoteDO>().Where(lbq => lbq.LightBulbDO == ID).ToListAsync();
+			var quotes = new List<Quote>();
+
+			foreach (var quoteAssocation in quoteAssociations)
+			{
+				var quoteDO = await database.Table<QuoteDO>().Where(qDO => qDO.ID == quoteAssocation.QuoteDO).FirstOrDefaultAsync();
+				quotes.Add(new Quote(quoteDO));
+			}
+
+			return quotes;
+		}
+
+		private async Task<IEnumerable<Contact>> getContactsForLightBulb(int ID)
+		{
+			var contactAssociations = await database.Table<LightBulbContactDO>().Where(lbc => lbc.LightBulbDO == ID).ToListAsync();
+			var contacts = new List<Contact>();
+
+			foreach (var contactAssocation in contactAssociations)
+			{
+				var contactDO = await database.Table<ContactDO>().Where(cDO => cDO.ID == contactAssocation.ContactDO).FirstOrDefaultAsync();
+				contacts.Add(new Contact(contactDO));
+			}
+
+			return contacts;
 		}
 
 		public async Task<IEnumerable<LightBulb>> GetAllLightBulbsAsync()
@@ -80,7 +199,11 @@ namespace LightSwitch
 			var lightBulbs = new List<LightBulb>();
 			foreach (var dataObject in dataObjects)
 			{
-				lightBulbs.Add(new LightBulb(dataObject));
+				var lightBulb = new LightBulb(dataObject);
+				lightBulbs.Add(lightBulb);
+				lightBulb.Messages.AddRange(await getMessagesForLightBulb(lightBulb.ID));
+				lightBulb.Quotes.AddRange(await getQuotesForLightBulb(lightBulb.ID));
+				lightBulb.Contacts.AddRange(await getContactsForLightBulb(lightBulb.ID));
 			}
 
 			return lightBulbs;
@@ -177,6 +300,45 @@ namespace LightSwitch
 			}
 
 			return quotes;
+		}
+
+		public Task AssociateLightBulbWithMessageAsync(LightBulb lightBulb, Message message)
+		{
+			var lightBulbDO = new LightBulbDO(lightBulb);
+			var messageDO = new MessageDO(message);
+			var lightBulbMessageDO = new LightBulbMessageDO
+			{
+				LightBulbDO = lightBulbDO.ID,
+				MessageDO = messageDO.ID
+			};
+
+			return database.InsertAsync(lightBulbMessageDO);
+		}
+
+		public Task AssociateLightBulbWithQuoteAsync(LightBulb lightBulb, Quote quote)
+		{
+			var lightBulbDO = new LightBulbDO(lightBulb);
+			var quoteDO = new QuoteDO(quote);
+			var lightBulbQuoteDO = new LightBulbQuoteDO
+			{
+				LightBulbDO = lightBulbDO.ID,
+				QuoteDO = quoteDO.ID
+			};
+
+			return database.InsertAsync(lightBulbQuoteDO);
+		}
+
+		public Task AssociateLightBulbWithContactAsync(LightBulb lightBulb, Contact contact)
+		{
+			var lightBulbDO = new LightBulbDO(lightBulb);
+			var contactDO = new ContactDO(contact);
+			var lightBulbConactDO = new LightBulbContactDO
+			{
+				LightBulbDO = lightBulbDO.ID,
+				ContactDO = contactDO.ID
+			};
+
+			return database.InsertAsync(lightBulbConactDO);
 		}
 	}
 }

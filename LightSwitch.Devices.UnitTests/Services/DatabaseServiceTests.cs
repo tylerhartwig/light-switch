@@ -6,7 +6,7 @@ using Xunit;
 
 namespace LightSwitch.UnitTests
 {
-	public class DatabaseServiceTests 
+	public class DatabaseServiceTests : IDisposable
 	{
 		private DatabaseService serviceReference;
 
@@ -42,6 +42,7 @@ namespace LightSwitch.UnitTests
 		{
 			GetDatabaseSingleton();
 			SetupLightBulbData();
+			serviceReference.InitializeAsync().Wait();
 		}
 
 		public void GetDatabaseSingleton()
@@ -75,28 +76,23 @@ namespace LightSwitch.UnitTests
 					Contacts = new List<Contact>(sampleContactData),
 					Quotes = new List<Quote>(sampleQuoteData)
 				}
-			};		}
+			};		
+		}
 
 		[Fact]
 		public async Task TestAddLightBulbToDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var lightBulb = new LightBulb();
 
 			var beforeCount = await serviceReference.GetLightBulbCountAsync();
 			await serviceReference.AddLightBulbAsync(lightBulb);
 			var afterCount = await serviceReference.GetLightBulbCountAsync();
 			Assert.Equal(beforeCount + 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestRemoveLightBulbFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var lightBulb = new LightBulb();
 
 			await serviceReference.AddLightBulbAsync(lightBulb);
@@ -104,24 +100,15 @@ namespace LightSwitch.UnitTests
 			await serviceReference.RemoveLightBulbAsync(lightBulb);
 			var afterCount = await serviceReference.GetLightBulbCountAsync();
 			Assert.Equal(beforeCount - 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestGetAllLightBulbFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
-			var taskList = new List<Task>();
 			var expectedCount = sampleLightBulbData.Length;
 
-			foreach (var bulb in sampleLightBulbData)
-			{
-				taskList.Add(serviceReference.AddLightBulbAsync(bulb));
-			}
-
-			await Task.WhenAll(taskList);
+			await addAllSampleDataToDatabase();
+						
 			var actualCount = await serviceReference.GetLightBulbCountAsync();
 			Assert.Equal(expectedCount, actualCount);
 
@@ -130,17 +117,56 @@ namespace LightSwitch.UnitTests
 
 			foreach (var bulb in sampleLightBulbData)
 			{
-				Assert.True(lightBulbs.Contains(bulb, new PropertyComparer<LightBulb>()), "Returned LightBulb set does not include all sample data");
+				Assert.True(lightBulbs.Contains(bulb), "Returned LightBulb set does not include all sample data");
+			}
+		}
+
+		private async Task addAllSampleDataToDatabase()
+		{
+			var taskList = new List<Task>();
+
+			foreach (var bulb in sampleLightBulbData)
+			{
+				taskList.Add(serviceReference.AddLightBulbAsync(bulb));
+			}
+			foreach (var message in sampleMessageData)
+			{
+				taskList.Add(serviceReference.AddMessageAsync(message));
+			}
+			foreach (var quote in sampleQuoteData)
+			{
+				taskList.Add(serviceReference.AddQuoteAsync(quote));
+			}
+			foreach (var contact in sampleContactData)
+			{
+				taskList.Add(serviceReference.AddContactAsync(contact));
 			}
 
-			await serviceReference.ResetDatabaseAsync();
+			await Task.WhenAll(taskList);
+
+			taskList.Clear();
+			foreach (var bulb in sampleLightBulbData)
+			{
+				foreach (var message in bulb.Messages)
+				{
+					taskList.Add(serviceReference.AssociateLightBulbWithMessageAsync(bulb, message));
+				}
+				foreach (var quote in bulb.Quotes)
+				{
+					taskList.Add(serviceReference.AssociateLightBulbWithQuoteAsync(bulb, quote));
+				}
+				foreach (var contact in bulb.Contacts)
+				{
+					taskList.Add(serviceReference.AssociateLightBulbWithContactAsync(bulb, contact));
+				}
+			}
+
+			await Task.WhenAll(taskList);
 		}
 
 		[Fact]
 		public async Task TestAddContactToDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var contact = new Contact();
 
 			var beforeCount = await serviceReference.GetContactCountAsync();
@@ -148,15 +174,11 @@ namespace LightSwitch.UnitTests
 			var afterCount = await serviceReference.GetContactCountAsync();
 
 			Assert.Equal(beforeCount + 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestRemoveContactFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var contact = new Contact();
 
 			await serviceReference.AddContactAsync(contact);
@@ -165,15 +187,11 @@ namespace LightSwitch.UnitTests
 			var afterCount = await serviceReference.GetContactCountAsync();
 
 			Assert.Equal(beforeCount - 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestGetAllContactsFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var taskList = new List<Task>();
 			var expectedCount = sampleContactData.Length;
 
@@ -191,17 +209,13 @@ namespace LightSwitch.UnitTests
 
 			foreach (var contact in sampleContactData)
 			{
-				Assert.True(contacts.Contains(contact, new PropertyComparer<Contact>()), "Returned contact set does not contain a piece of sample data");
+				Assert.True(contacts.Contains(contact), "Returned contact set does not contain a piece of sample data");
 			}
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestAddMessageToDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var message = new Message();
 
 			var beforeCount = await serviceReference.GetMessageCountAsync();
@@ -209,15 +223,11 @@ namespace LightSwitch.UnitTests
 			var afterCount = await serviceReference.GetMessageCountAsync();
 
 			Assert.Equal(beforeCount + 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestRemoveMessageFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var message = new Message();
 
 			await serviceReference.AddMessageAsync(message);
@@ -226,15 +236,11 @@ namespace LightSwitch.UnitTests
 			var afterCount = await serviceReference.GetMessageCountAsync();
 
 			Assert.Equal(beforeCount - 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestGetAllMessagesFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var taskList = new List<Task>();
 			var expectedCount = sampleMessageData.Length;
 
@@ -252,17 +258,13 @@ namespace LightSwitch.UnitTests
 
 			foreach (var message in sampleMessageData)
 			{
-				Assert.True(messages.Contains(message, new PropertyComparer<Message>()), "Returned message set does not contain all sample data");
+				Assert.True(messages.Contains(message), "Returned message set does not contain all sample data");
 			}
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestAddQuoteToDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var quote = new Quote();
 
 			var beforeCount = await serviceReference.GetQuoteCountAsync();
@@ -270,15 +272,11 @@ namespace LightSwitch.UnitTests
 			var afterCount = await serviceReference.GetQuoteCountAsync();
 
 			Assert.Equal(beforeCount + 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestRemoveQuoteFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var quote = new Quote();
 
 			await serviceReference.AddQuoteAsync(quote);
@@ -287,15 +285,11 @@ namespace LightSwitch.UnitTests
 			var afterCount = await serviceReference.GetQuoteCountAsync();
 
 			Assert.Equal(beforeCount - 1, afterCount);
-
-			await serviceReference.ResetDatabaseAsync();
 		}
 
 		[Fact]
 		public async Task TestGetAllQuotesFromDatabase()
 		{
-			await serviceReference.InitializeAsync();
-
 			var taskList = new List<Task>();
 			var expectedCount = sampleQuoteData.Length;
 
@@ -313,10 +307,86 @@ namespace LightSwitch.UnitTests
 
 			foreach (var quote in sampleQuoteData)
 			{
-				Assert.True(quotes.Contains(quote, new PropertyComparer<Quote>()), "Returned quote set does not contain all quotes in sample data");
+				Assert.True(quotes.Contains(quote), "Returned quote set does not contain all quotes in sample data");
 			}
+		}
 
-			await serviceReference.ResetDatabaseAsync();
+		[Fact]
+		public async Task TestAssociateLightBulbAndMessage()
+		{
+			var message = new Message
+			{
+				Text = "test text"
+			};
+
+			var lightBulb = new LightBulb
+			{
+				Name = "test name"
+			};
+			lightBulb.Messages.Add(message);
+
+			await Task.WhenAll(new Task[] {
+				serviceReference.AddLightBulbAsync(lightBulb),
+				serviceReference.AddMessageAsync(message)
+			});
+
+			await serviceReference.AssociateLightBulbWithMessageAsync(lightBulb, message);
+			var returnedBulb = await serviceReference.GetLightBulbAsync(lightBulb.ID);
+			Assert.Equal(lightBulb, returnedBulb);
+		}
+
+		[Fact]
+		public async Task TestAssociateLightBulbAndQuote()
+		{
+			var quote = new Quote
+			{
+				Text = "test text",
+				Reference = "test reference"
+			};
+
+			var lightBulb = new LightBulb
+			{
+				Name = "test name"
+			};
+			lightBulb.Quotes.Add(quote);
+
+			await Task.WhenAll(new Task[] {
+				serviceReference.AddLightBulbAsync(lightBulb),
+				serviceReference.AddQuoteAsync(quote)
+			});
+
+			await serviceReference.AssociateLightBulbWithQuoteAsync(lightBulb, quote);
+			var returnedBulb = await serviceReference.GetLightBulbAsync(lightBulb.ID);
+			Assert.Equal(lightBulb, returnedBulb);
+		}
+
+		[Fact]
+		public async Task TestAssociateLightBulbAndContact()
+		{
+			var contact = new Contact
+			{
+				Name = "test name"
+			};
+
+			var lightBulb = new LightBulb
+			{
+				Name = "test lightbulb name"
+			};
+			lightBulb.Contacts.Add(contact);
+
+			await Task.WhenAll(new Task[] {
+				serviceReference.AddLightBulbAsync(lightBulb),
+				serviceReference.AddContactAsync(contact)
+			});
+
+			await serviceReference.AssociateLightBulbWithContactAsync(lightBulb, contact);
+			var returnedBulb = await serviceReference.GetLightBulbAsync(lightBulb.ID);
+			Assert.Equal(lightBulb, returnedBulb);
+		}
+
+		public void Dispose()
+		{
+			serviceReference.ResetDatabaseAsync().Wait();
 		}
 	}
 }
