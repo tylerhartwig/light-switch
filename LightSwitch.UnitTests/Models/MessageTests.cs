@@ -40,5 +40,54 @@ namespace LightSwitch.UnitTests
 			testObject.Text = text;
 			Assert.Equal(text, testObject.Text);
 		}
+
+		[Fact]
+		public void TestEqualObjectsAreEqual()
+		{
+			var id = 777;
+			var text = "Some test text";
+
+			var leftMessage = new Message
+			{
+				ID = id,
+				Text = text
+			};
+
+			var rightMessage = new Message
+			{
+				ID = id,
+				Text = text
+			};
+
+			Assert.Equal(leftMessage, rightMessage);
+		}
+
+		[Fact]
+		public void TestUnEqualObjectsAreUnEqual()
+		{
+			var id1 = 777;
+			var id2 = 888;
+			var text1 = "some test text";
+			var text2 = "other test text";
+
+			var leftMessage = new Message
+			{
+				ID = id1,
+				Text = text1
+			};
+
+			var rightMessage = new Message
+			{
+				ID = id1,
+				Text = text2
+			};
+
+			Assert.NotEqual(leftMessage, rightMessage);
+
+			rightMessage.Text = text1;
+			rightMessage.ID = id2;
+
+			Assert.NotEqual(leftMessage, rightMessage);
+		}
 	}
 }
