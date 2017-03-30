@@ -40,3 +40,9 @@ Thumbs.db
 *.dotCover
 
 .ruby-version
+
+# Ruby Things
+.irb-history
+
+# RubyMine Stuff
+**/.idea/**/*.*
