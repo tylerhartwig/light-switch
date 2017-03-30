@@ -53,7 +53,9 @@
     <Compile Include="DataObjects\LightBulbQuoteDO.cs" />
     <Compile Include="DataObjects\LightBulbContactDO.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\QuoteViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
