@@ -18,6 +18,11 @@ namespace LightSwitch
 			Reference = quoteDO.Reference;
 		}
 
+		public override int GetHashCode()
+		{
+			return ID;
+		}
+
 		public override bool Equals(object obj)
 		{
 			return CompareTo((Quote)obj) == 0;
