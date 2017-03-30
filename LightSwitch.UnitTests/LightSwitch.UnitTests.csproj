@@ -42,6 +42,7 @@
     <Compile Include="DataObjects\LightBulbQuoteDOTests.cs" />
     <Compile Include="DataObjects\LightBulbContactDOTests.cs" />
     <Compile Include="ViewModels\ContactViewModelTests.cs" />
+    <Compile Include="ViewModels\MessageViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">
