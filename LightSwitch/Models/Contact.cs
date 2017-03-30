@@ -16,6 +16,11 @@ namespace LightSwitch
 			Name = contactDO.Name;
 		}
 
+		public override int GetHashCode()
+		{
+			return ID;
+		}
+
 		public override bool Equals(object obj)
 		{
 			return CompareTo((Contact)obj) == 0;

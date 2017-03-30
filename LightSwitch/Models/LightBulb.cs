@@ -22,6 +22,11 @@ namespace LightSwitch
 			Name = lightBulbDO.Name;
 		}
 
+		public override int GetHashCode()
+		{
+			return ID;
+		}
+
 		public override bool Equals(object obj)
 		{
 			var rightLightBulb = (LightBulb)obj;

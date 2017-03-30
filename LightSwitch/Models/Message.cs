@@ -16,6 +16,11 @@ namespace LightSwitch
 			Text = messageDO.Text;
 		}
 
+		public override int GetHashCode()
+		{
+			return ID;
+		}
+
 		public override bool Equals(object obj)
 		{
 			return CompareTo((Message)obj) == 0;
