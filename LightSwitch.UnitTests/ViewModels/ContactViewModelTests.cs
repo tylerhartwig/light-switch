@@ -13,17 +13,22 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Fact]
-		public void TestContactConstructor()
+		public void TestContactProperty()
 		{
-			var contact = new Contact
+			var contactViewModel = new ContactViewModel();
+			var namePropertyChanged = false;
+
+			contactViewModel.PropertyChanged += (sender, e) =>
 			{
-				ID = 777,
-				Name = "New name"
+				if (e.PropertyName == nameof(contactViewModel.Name))
+				{
+					namePropertyChanged = true;
+				}
 			};
 
-			var contactViewModel = new ContactViewModel(contact);
+			contactViewModel.Contact = new Contact();
 
-			Assert.Equal(contact.Name, contactViewModel.Name);
+			Assert.True(namePropertyChanged, "PropertyChanged was not raised for \"Name\"");
 		}
 
 		[Fact]

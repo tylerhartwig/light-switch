@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Services\DatabaseServiceTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AddressBookServiceTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\NavigationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

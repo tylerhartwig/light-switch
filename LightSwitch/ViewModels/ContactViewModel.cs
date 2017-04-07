@@ -4,6 +4,15 @@ namespace LightSwitch
 	public class ContactViewModel : BaseViewModel
 	{
 		private Contact contact;
+		public Contact Contact
+		{
+			get { return contact; }
+			set
+			{
+				contact = value;
+				OnPropertyChanged(nameof(Name));
+			}
+		}
 
 		public string Name
 		{
@@ -20,9 +29,14 @@ namespace LightSwitch
 			contact = new Contact();
 		} 
 
-		public ContactViewModel(Contact contact)
+		public override bool Equals(object obj)
 		{
-			this.contact = contact;
-		}	
+			return contact.Equals(((ContactViewModel)obj).contact);
+		}
+
+		public override int GetHashCode()
+		{
+			return contact.GetHashCode();
+		}
 	}
 }

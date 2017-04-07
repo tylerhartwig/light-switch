@@ -66,7 +66,9 @@ namespace LightSwitch
 
 			foreach (var contact in lightBulb.Contacts)
 			{
-				Contacts.Add(new ContactViewModel(contact));
+				var contactViewModel = new ContactViewModel();
+				contactViewModel.Contact = contact;
+				Contacts.Add(contactViewModel);
 			}
 
 			foreach (var quote in lightBulb.Quotes)
