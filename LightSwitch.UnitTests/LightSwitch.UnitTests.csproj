@@ -6,7 +6,6 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EBB83FAA-B240-4AAD-B5FB-41DCDED56ACF}</ProjectGuid>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <UseMSBuildEngine>true</UseMSBuildEngine>
     <OutputType>Library</OutputType>
     <RootNamespace>LightSwitch.UnitTests</RootNamespace>
     <AssemblyName>LightSwitch.UnitTests</AssemblyName>
@@ -45,6 +44,9 @@
     <Compile Include="ViewModels\MessageViewModelTests.cs" />
     <Compile Include="ViewModels\QuoteViewModelTests.cs" />
     <Compile Include="ViewModels\LightBulbViewModelTests.cs" />
+    <Compile Include="ViewModels\MainPageViewModelTests.cs" />
+    <Compile Include="Mocks\NavigationServiceMock.cs" />
+    <Compile Include="ViewModels\AddEditLightBulbViewModelTests.cs" />
     <Compile Include="Mocks\NavigationServiceMockTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +56,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="Services\" />
+    <Folder Include="Mocks\" />
     <Reference Include="xunit.abstractions">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -69,9 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

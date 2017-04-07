@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage Title="Add Light Bulb" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:LightSwitch;Assembly=LightSwitch" x:Class="LightSwitch.AddEditLightBulbPage">
+	<ContentPage.Content>
+		<TableView Intent="Form" HasUnevenRows="true">
+			<TableView.Behaviors>
+				<local:DynamicListBehavior ItemsSource="{Binding }" 
+										   TableSectionName="ContactsSection">
+					<local:DynamicListBehavior.ItemTemplate>
+						<DataTemplate>
+							<TextCell />
+						</DataTemplate>
+					</local:DynamicListBehavior.ItemTemplate>
+				</local:DynamicListBehavior>
+			</TableView.Behaviors>
+			<TableView.Root>
+				<TableSection Title="Light Bulb Name">
+					<ViewCell>
+						<Entry HeightRequest="40"/>
+					</ViewCell>
+				</TableSection>
+				<TableSection Title="Message">
+					<ViewCell>
+						<Editor HeightRequest="120" />
+					</ViewCell>
+				</TableSection>
+				<TableSection Title="Contacts" x:Name="ContactsSection">
+					<ViewCell>
+						<Button Text="Add Contact" Command="{Binding AddContacts}" />
+					</ViewCell>
+				</TableSection>
+			</TableView.Root>
+		</TableView>
+	</ContentPage.Content>
+</ContentPage>
