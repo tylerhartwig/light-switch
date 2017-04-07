@@ -1,0 +1,1 @@
+ios: PLATFORM=ios -r features/support -r features/support/patches -r features/ios/support -r features/ios/pages -r features/step_definitions

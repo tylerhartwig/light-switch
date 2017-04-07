@@ -1,7 +1,7 @@
 require "calabash-cucumber"
 
 # Cucumber -d must pass, but support/env.rb is not eval'd on dry runs.
-# We must detect that the user wants to use pre-defined steps.
+# We must detect that the user wants to use pre-defined step_definitions.
 dir = File.expand_path(File.dirname(__FILE__))
 env = File.join(dir, "env.rb")
 

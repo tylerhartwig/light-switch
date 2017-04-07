@@ -1,0 +1,9 @@
+task :default do |t|
+  cmd = "bundle exec cucumber -p ios"
+  sh cmd
+end
+
+task :console do |t|
+  cmd = "bundle exec calabash-ios console"
+  sh cmd
+end
