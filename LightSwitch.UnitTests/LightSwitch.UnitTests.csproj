@@ -45,6 +45,7 @@
     <Compile Include="ViewModels\MessageViewModelTests.cs" />
     <Compile Include="ViewModels\QuoteViewModelTests.cs" />
     <Compile Include="ViewModels\LightBulbViewModelTests.cs" />
+    <Compile Include="Mocks\NavigationServiceMockTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">

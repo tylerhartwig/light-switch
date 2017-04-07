@@ -18,7 +18,6 @@ namespace LightSwitch.iOS.UnitTests
 	[Register("AppDelegate")]
 	public partial class AppDelegate : RunnerAppDelegate
 	{
-
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
 		// method you should instantiate the window, load the UI into it and then make the window
@@ -29,8 +28,9 @@ namespace LightSwitch.iOS.UnitTests
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			// We need this to ensure the execution assembly is part of the app bundle
-			AddExecutionAssembly(typeof(ExtensibilityPointFactory).Assembly);
+			App.Container = new Ninject.StandardKernel(new UnitTestModule());
 
+			AddExecutionAssembly(typeof(ExtensibilityPointFactory).Assembly);
 
 			// tests can be inside the main assembly
 			AddTestAssembly(Assembly.GetExecutingAssembly());
