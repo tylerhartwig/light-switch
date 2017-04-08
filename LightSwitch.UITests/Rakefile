@@ -7,3 +7,8 @@ task :console do |t|
   cmd = "bundle exec calabash-ios console"
   sh cmd
 end
+
+task :dryrun do |t|
+  cmd = "bundle exec cucumber -dryrun"
+  sh cmd
+end
