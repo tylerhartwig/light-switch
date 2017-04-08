@@ -23,7 +23,14 @@ namespace LightSwitch.UnitTests
 		{
 			get
 			{
-				return pageStack.Peek();
+				if (pageStack.Count == 0)
+				{
+					return null;
+				}
+				else
+				{
+					return pageStack.Peek();
+				}
 			}
 		}
 

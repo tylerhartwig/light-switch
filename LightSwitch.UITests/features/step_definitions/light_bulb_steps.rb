@@ -1,25 +1,28 @@
-Given(/^I (?:am|should be) on the ([\w\s]+) screen$/) do |page_name|
-  class_name = "#{page_name.delete(" ")}Page"
-  @current_page = page(Object.const_get(class_name)).await
+module LightSwitchDomain
+  def light_bulb_page
+    @light_bulb_page ||= page(LightBulbPage).await
+  end
+
+  def add_light_bulb_page
+    @add_light_bulb_page ||= page(AddLightBulbPage).await
+  end
 end
 
-When(/^I press the add light bulb button$/) do
-  @current_page.press_add_light_bulb
+World(LightSwitchDomain)
+
+Given(/^I (?:am|should be) on the Light Bulb screen$/) do
+  wait_for_element_exists(light_bulb_page.trait, timeout: 5)
 end
 
 
-When(/^I put "([^"]*)" in the "([^"]*)" field$/) do |value, field|
-  @current_page.fill_in_field(field, value)
+When(/^I add the following Light Bulbs?$/) do |light_bulbs|
+  # light_bulb is a table.hashes.keys # => [:name, :message, :contacts]
+  light_bulbs.hashes.each do |light_bulb|
+    light_bulb_page.press_add_light_bulb
+    add_light_bulb_page.fill_in_fields_with_light_bulb light_bulb
+  end
 end
 
-And(/^add "([^"]*)" as a contact$/) do |contact_name|
-  @current_page.add_contact(contact_name)
-end
-
-And(/^I click on the "([^"]*)" button$/) do |button_name|
-  @current_page.click_button(button_name)
-end
-
-And(/^I should see a "([^"]*)" light bulb$/) do |arg|
+Then(/^I should see a Light Bulb titled "([^"]*)" on the list$/) do |arg|
   pending
 end

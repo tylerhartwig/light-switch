@@ -43,8 +43,9 @@ namespace LightSwitch
 
 		public AddEditLightBulbViewModel(INavigationService navigationService, IAddressBookService addressBookService)
 		{
-			Title = "Add Light Bulb";
+			Title = "Edit Light Bulb";
 			AddContacts = new AwaitableCommand(async () => await addContacts());
+			Contacts = new ObservableCollection<ContactViewModel>();
 
 			this.navigationService = navigationService;
 			this.addressBookService = addressBookService;
@@ -62,6 +63,7 @@ namespace LightSwitch
 
 			var viewModel = await navigationService.GoToPageForViewModel<AddContactViewModel>();
 			viewModel.Contacts = contactViewModels;
+			viewModel.TargetCollection = this.Contacts;
 		}
 	}
 }

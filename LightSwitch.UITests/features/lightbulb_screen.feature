@@ -6,12 +6,7 @@ Feature: Light Bulb management
 
   Scenario: User is able to add a new Light Bulb
     Given I am on the Light Bulb screen
-      And I press the add light bulb button
-      And I am on the Add Light Bulb screen
-    When I put "Stealing Cars" in the "Name" field
-      And I put "I feel like stealing a car" in the "Message" field
-      And add "Paul" as a contact
-      And I click on the "Save" button
-    Then I should be on the Light Bulb Screen
-      And I should see a "Stealing Cars" light bulb
-
+    When I add the following Light Bulb
+      | name          | message                              | contacts       |
+      | Stealing Cars | Help man, I feel like stealing a car | John Appleseed |
+    Then I should see a Light Bulb titled "Stealing Cars" on the list

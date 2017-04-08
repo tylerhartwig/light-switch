@@ -22,9 +22,15 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Fact]
+		public void TestConstructor()
+		{
+			Assert.NotNull(viewModel.Contacts);
+			Assert.Equal("Edit Light Bulb", viewModel.Title);
+		}
+
+		[Fact]
 		public void TestTitleProperty()
 		{
-
 			var title = "new title";
 			var propertyChanged = false;
 
@@ -94,6 +100,19 @@ namespace LightSwitch.UnitTests
 			Assert.True(navigationService.CurrentViewModel is AddContactViewModel, "AddContacts Command did not move to the correct view model");
 			var vm = (AddContactViewModel)navigationService.CurrentViewModel;
 			Assert.Equal(contactViewModels, vm.Contacts.ToList());
+		}
+
+		[Fact]
+		public async Task TestAddContactSetsTargetCollection()
+		{
+			var addContactCommand = viewModel.AddContacts;
+			navigationService.AssociateViewModelForView<AddContactViewModel, Page>();
+			viewModel.Contacts = new ObservableCollection<ContactViewModel>();
+
+			await addContactCommand.ExecuteAsync(null);
+
+			var addContactViewModel = (AddContactViewModel)navigationService.CurrentViewModel;
+			Assert.Same(viewModel.Contacts, addContactViewModel.TargetCollection);
 		}
 	}
 }
