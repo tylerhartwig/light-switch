@@ -9,12 +9,14 @@ namespace LightSwitch.UnitTests
 	public class MainPageViewModelTests 
 	{
 		INavigationService navigationService;
+		IDatabaseService databaseService;
 		MainPageViewModel mainPageViewModel;
 
 		public MainPageViewModelTests()
 		{
 			navigationService = new NavigationServiceMock();
-			mainPageViewModel = new MainPageViewModel(navigationService);
+			databaseService = new DatabaseServiceMock();
+			mainPageViewModel = new MainPageViewModel(navigationService, databaseService);
 			navigationService.AssociateViewModelForView<AddEditLightBulbViewModel, Page>();
 		}
 
@@ -39,6 +41,18 @@ namespace LightSwitch.UnitTests
 
 			var currentViewModel = navigationService.CurrentViewModel;
 			Assert.True(currentViewModel is AddEditLightBulbViewModel, "AddLightBulb did not change to correct view model");
+		}
+
+		[Fact]
+		public async Task TestRefreshLightBulbs()
+		{
+			var lightBulb = new LightBulb();
+			await databaseService.AddLightBulbAsync(lightBulb);
+
+			var refreshCommand = mainPageViewModel.RefreshLightBulbs;
+			await refreshCommand.ExecuteAsync(null);
+
+			Assert.Equal(await databaseService.GetLightBulbCountAsync(), mainPageViewModel.LightBulbs.Count);
 		}
 	}
 }

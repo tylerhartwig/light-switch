@@ -7,6 +7,14 @@ namespace LightSwitch
 {
 	public class AwaitableCommand : AwaitableCommand<object>, IAsyncCommand
 	{
+		public static AwaitableCommand Empty
+		{
+			get
+			{
+				return new AwaitableCommand(async () => { await Task.Run(() => { }); });
+			}
+		}
+
 		public AwaitableCommand(Func<Task> executeMethod) : base(_ => executeMethod()) { }
 		public AwaitableCommand(Func<Task> executeMethod, Func<bool> canExecuteMethod) : base(_ => executeMethod(), _ => canExecuteMethod()) { }
 	}

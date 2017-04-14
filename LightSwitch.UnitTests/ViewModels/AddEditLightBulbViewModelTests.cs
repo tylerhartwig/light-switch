@@ -12,13 +12,15 @@ namespace LightSwitch.UnitTests
 	{
 		INavigationService navigationService;
 		IAddressBookService addressBookService;
+		IDatabaseService databaseService;
 		AddEditLightBulbViewModel viewModel;
 
 		public AddEditLightBulbViewModelTests()
 		{
 			navigationService = new NavigationServiceMock();
 			addressBookService = new AddressBookServiceMock();
-			viewModel = new AddEditLightBulbViewModel(navigationService, addressBookService);
+			databaseService = new DatabaseServiceMock();
+			viewModel = new AddEditLightBulbViewModel(navigationService, addressBookService, databaseService);
 		}
 
 		[Fact]
@@ -70,6 +72,57 @@ namespace LightSwitch.UnitTests
 
 			var addContactViewModel = (AddContactViewModel)navigationService.CurrentViewModel;
 			Assert.Same(viewModel.Contacts, addContactViewModel.TargetCollection);
+		}
+
+		[Fact]
+		public async Task TestSaveLightBulbCommandSavesBulb()
+		{
+			var command = viewModel.SaveLightBulb;
+
+			var lightBulb = new LightBulb
+			{
+				Name = "Stealing Cars",
+				Contacts = new List<Contact>(new[]
+				{
+					new Contact
+					{
+						Name = "Tyler"
+					}
+				}),
+				Messages = new List<Message>(new[]
+				{
+					new Message
+					{
+						Text = "test text"
+					}
+				})
+			};
+
+			viewModel.Name = lightBulb.Name;
+			viewModel.Message = lightBulb.Messages.FirstOrDefault().Text;
+
+			foreach (var contact in lightBulb.Contacts)
+			{
+				viewModel.Contacts.Add(new ContactViewModel
+				{
+					Name = contact.Name
+				});
+			}
+
+			await command.ExecuteAsync(null);
+			var lightBulbs = await databaseService.GetAllLightBulbsAsync();
+
+			Assert.True(lightBulbs.Contains(lightBulb), "Database does not contain expected lightbulb after save command");
+		}
+
+		[Fact]
+		public async Task TestSaveLightBulbGoesBack()
+		{
+			var command = viewModel.SaveLightBulb;
+			var currentPage = navigationService.CurrentPage;
+
+			await command.ExecuteAsync(null);
+			Assert.NotEqual(currentPage, navigationService.CurrentPage);
 		}
 	}
 }

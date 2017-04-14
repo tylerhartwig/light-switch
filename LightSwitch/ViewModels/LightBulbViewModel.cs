@@ -5,7 +5,16 @@ namespace LightSwitch
 {
 	public class LightBulbViewModel : BaseViewModel
 	{
-		private LightBulb lightBulb;
+		private LightBulb _lightBulb;
+		private LightBulb lightBulb
+		{
+			get { return _lightBulb; }
+			set
+			{
+				_lightBulb = value;
+				OnPropertyChanged(nameof(Name));
+			}
+		}
 
 		public string Name
 		{

@@ -27,19 +27,43 @@ namespace LightSwitch
 			}
 		}
 
-		private INavigationService navigationService;
+		private IAsyncCommand _refreshLightBulbs;
+		public IAsyncCommand RefreshLightBulbs
+		{
+			get { return _refreshLightBulbs; }
+			set
+			{
+				SetProperty(ref _refreshLightBulbs, value);
+			}
+		}
 
-		public MainPageViewModel(INavigationService navigationService)
+		private INavigationService navigationService;
+		private IDatabaseService databaseService;
+
+		public MainPageViewModel(INavigationService navigationService, IDatabaseService databaseService)
 		{
 			this.navigationService = navigationService;
+			this.databaseService = databaseService;
 			LightBulbs = new ObservableCollection<LightBulbViewModel>();
-			AddLightBulb = new AwaitableCommand(async () => { await addLightBulb(); });
+			AddLightBulb = new AwaitableCommand(addLightBulb);
+			RefreshLightBulbs = new AwaitableCommand(refreshLightBulbs);
 		}
 
 		private async Task addLightBulb()
 		{
 			LightBulbs.Add(new LightBulbViewModel());
 			await navigationService.GoToPageForViewModel<AddEditLightBulbViewModel>();
+		}
+
+		private async Task refreshLightBulbs()
+		{
+			var lightBulbs = await databaseService.GetAllLightBulbsAsync();
+
+			LightBulbs.Clear();
+			foreach (var lightBulb in lightBulbs)
+			{
+				LightBulbs.Add(new LightBulbViewModel(lightBulb));
+			}
 		}
 	}
 }
