@@ -21,6 +21,14 @@ class AddLightBulbPage < Calabash::IBase
     "UIButton marked:'Done'"
   end
 
+  def save_button
+    "view marked:'Save'"
+  end
+
+  def save_light_bulb
+    wait_tap save_button
+  end
+
   def fill_in_fields_with_light_bulb(light_bulb)
     fill_in_name light_bulb[:name]
     fill_in_message light_bulb[:message]

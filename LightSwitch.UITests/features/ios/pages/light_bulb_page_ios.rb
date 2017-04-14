@@ -14,6 +14,6 @@ class LightBulbPage < Calabash::IBase
   end
 
   def verify_light_bulb_exists(light_bulb_name)
-    pending
+    wait_for_element_exists "view marked:'#{light_bulb_name}'"
   end
 end

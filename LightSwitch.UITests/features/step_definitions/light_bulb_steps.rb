@@ -20,9 +20,10 @@ When(/^I add the following Light Bulbs?$/) do |light_bulbs|
   light_bulbs.hashes.each do |light_bulb|
     light_bulb_page.press_add_light_bulb
     add_light_bulb_page.fill_in_fields_with_light_bulb light_bulb
+    add_light_bulb_page.save_light_bulb
   end
 end
 
-Then(/^I should see a Light Bulb titled "([^"]*)" on the list$/) do |arg|
-  pending
+Then(/^I should see a Light Bulb titled "([^"]*)" on the list$/) do |light_bulb_name|
+  light_bulb_page.verify_light_bulb_exists light_bulb_name
 end

@@ -25,5 +25,16 @@ namespace LightSwitch.iOS
 
 			return base.FinishedLaunching(app, options);
 		}
+
+#if ENABLE_TEST_CLOUD
+		[Export("resetDatabase:")]
+		public NSString resetDatabase(NSString value)
+		{
+			var databaseService = App.Container.Get<IDatabaseService>();
+			databaseService.ResetDatabaseAsync().Wait();
+			databaseService.InitializeAsync().Wait();
+			return new NSString("0");
+		}
+#endif
 	}
 }
