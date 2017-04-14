@@ -19,33 +19,11 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Fact]
-		public void TestLightBulbsProperty()
+		public void TestPropertyChangedEvents()
 		{
-			var result = false;
-			mainPageViewModel.PropertyChanged += (sender, e) =>
-			{
-				if (e.PropertyName == "LightBulbs")
-				{
-					result = true;
-				}
-			};
-
-			mainPageViewModel.LightBulbs = new ObservableCollection<LightBulbViewModel>();
-			Assert.True(result, "PropertyChanged was not raised for \"LightBulbs\"");
-		}
-
-		[Fact]
-		public void TestAddLightBulbProperty()
-		{
-			var propertyChanged = false;
-
-			mainPageViewModel.PropertyChanged += (sender, e) =>
-			{
-				propertyChanged = true;
-			};
-
-			mainPageViewModel.AddLightBulb = new AwaitableCommand(async () => { });
-			Assert.True(propertyChanged, "PropertyChanged was not raised for property \"AddLightBulb\"");
+			TestHelper.TestPropertyChanged(mainPageViewModel, nameof(mainPageViewModel.LightBulbs), new ObservableCollection<LightBulbViewModel>());
+			TestHelper.TestPropertyChanged(mainPageViewModel, nameof(mainPageViewModel.AddLightBulb), AwaitableCommand.Empty);
+			TestHelper.TestPropertyChanged(mainPageViewModel, nameof(mainPageViewModel.RefreshLightBulbs), AwaitableCommand.Empty);
 		}
 
 		[Fact]

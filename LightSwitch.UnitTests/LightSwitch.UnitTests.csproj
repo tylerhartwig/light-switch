@@ -53,6 +53,7 @@
     <Compile Include="Mocks\NavigationServiceMockTests.cs" />
     <Compile Include="Mocks\DatabaseServiceMockTests.cs" />
     <Compile Include="Mocks\DatabaseServiceMock.cs" />
+    <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">

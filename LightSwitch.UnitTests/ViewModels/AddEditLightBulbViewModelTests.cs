@@ -29,57 +29,14 @@ namespace LightSwitch.UnitTests
 		}
 
 		[Fact]
-		public void TestTitleProperty()
+		public void TestPropertyChanged()
 		{
-			var title = "new title";
-			var propertyChanged = false;
-
-			viewModel.PropertyChanged += (sender, e) =>
-			{
-				if (e.PropertyName == "Title")
-				{
-					propertyChanged = true;
-				}
-			};
-
-			viewModel.Title = title;
-			Assert.True(propertyChanged, "PropertyChanged was not raised for property \"Title\"");
-		}
-
-		[Fact]
-		public void TestContactsProperty()
-		{
-			var contacts = new ObservableCollection<ContactViewModel>();
-			var propertyChanged = false;
-
-			viewModel.PropertyChanged += (sender, e) =>
-			{
-				if (e.PropertyName == "Contacts")
-				{
-					propertyChanged = true;
-				}
-			};
-
-			viewModel.Contacts = contacts;
-			Assert.True(propertyChanged, "PropertyChanged was not raised for property \"Contacts\"");
-		}
-
-		[Fact]
-		public void TestAddContactsProperty()
-		{
-			var addContactsCommand = new AwaitableCommand(async () => { });
-			var propertyChanged = false;
-
-			viewModel.PropertyChanged += (sender, e) =>
-			{
-				if (e.PropertyName == "AddContacts")
-				{
-					propertyChanged = true;
-				}
-			};
-
-			viewModel.AddContacts = addContactsCommand;
-			Assert.True(propertyChanged, "PropertyChanged was not raised for property \"AddContacts\"");
+			TestHelper.TestPropertyChanged(viewModel, nameof(viewModel.Title), "test title");
+			TestHelper.TestPropertyChanged(viewModel, nameof(viewModel.Name), string.Empty);
+			TestHelper.TestPropertyChanged(viewModel, nameof(viewModel.Message), "test message");
+			TestHelper.TestPropertyChanged(viewModel, nameof(viewModel.Contacts), new ObservableCollection<ContactViewModel>());
+			TestHelper.TestPropertyChanged(viewModel, nameof(viewModel.AddContacts), AwaitableCommand.Empty);
+			TestHelper.TestPropertyChanged(viewModel, nameof(viewModel.SaveLightBulb), AwaitableCommand.Empty);
 		}
 
 		[Fact]
