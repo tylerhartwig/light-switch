@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace LightSwitch
 {
-	public class DatabaseService
+	public class DatabaseService : IDatabaseService
 	{
 		private readonly string databaseName = "LightSwitchSQLite.db3";
 
@@ -25,24 +25,13 @@ namespace LightSwitch
 			}
 		}
 
-		private static DatabaseService instance;
-		public static DatabaseService Instance
 		IDatabaseHelper databaseHelper;
 
 		public DatabaseService(IDatabaseHelper databaseHelper) 
 		{
-			get
-			{
-				if (instance == null)
-				{
-					instance = new DatabaseService();
-				}
-				return instance;
-			}
 			this.databaseHelper = databaseHelper;
+			InitializeAsync().Wait();
 		}
-
-		private DatabaseService() { }
 
 		public Task InitializeAsync()
 		{
@@ -83,7 +72,7 @@ namespace LightSwitch
 			lightBulb.ID = lightBulbDO.ID;
 		}
 
-		private Task AddAllMessagesAsync(IEnumerable<Message> messages)
+		private Task addAllMessagesAsync(IEnumerable<Message> messages)
 		{
 			var taskList = new List<Task>();
 
@@ -100,7 +89,7 @@ namespace LightSwitch
 			return Task.WhenAll(taskList);
 		}
 
-		private Task AddAllContactsAsync(IEnumerable<Contact> contacts)
+		private Task addAllContactsAsync(IEnumerable<Contact> contacts)
 		{
 			var taskList = new List<Task>();
 
@@ -117,7 +106,7 @@ namespace LightSwitch
 			return Task.WhenAll(taskList);
 		}
 
-		private Task AddAllQuotesAsync(IEnumerable<Quote> quotes)
+		private Task addAllQuotesAsync(IEnumerable<Quote> quotes)
 		{
 			var taskList = new List<Task>();
 

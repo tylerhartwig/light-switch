@@ -10,6 +10,7 @@ namespace LightSwitch
 		{
 			Bind<INavigationService>().To<NavigationService>().InSingletonScope();
 			Bind<IAddressBookService>().To<AddressBookService>().InSingletonScope();
+			Bind<IDatabaseService>().To<DatabaseService>().InSingletonScope();
 			Bind<NavigationPage>().ToSelf().WithConstructorArgument<Page>(new MainPage());
 		}
 	}

@@ -51,6 +51,8 @@
     <Compile Include="Mocks\AddressBookServiceMock.cs" />
     <Compile Include="Mocks\AddressBookServiceMockTests.cs" />
     <Compile Include="Mocks\NavigationServiceMockTests.cs" />
+    <Compile Include="Mocks\DatabaseServiceMockTests.cs" />
+    <Compile Include="Mocks\DatabaseServiceMock.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LightSwitch\LightSwitch.csproj">
@@ -60,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
     <Folder Include="Mocks\" />
   </ItemGroup>
   <ItemGroup>

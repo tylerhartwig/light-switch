@@ -9,9 +9,9 @@
     <Import_RootNamespace>LightSwitch.Devices.UnitTests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Services\DatabaseServiceTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AddressBookServiceTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\NavigationServiceTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DatabaseServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
