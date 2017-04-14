@@ -10,6 +10,7 @@ namespace LightSwitch.iOS.UnitTests
 		{
 			Bind<INavigationService>().To<NavigationServiceMock>();
 			Bind<IAddressBookService>().To<AddressBookServiceMock>();
+			Bind<IDatabaseHelper>().To<DatabaseHelper>().InSingletonScope();
 		}
 	}
 }

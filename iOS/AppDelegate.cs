@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Ninject;
+using Ninject.Modules;
 using UIKit;
 
 namespace LightSwitch.iOS
@@ -18,7 +20,7 @@ namespace LightSwitch.iOS
 #if ENABLE_TEST_CLOUD
 			Xamarin.Calabash.Start();
 #endif
-
+			App.Container = new StandardKernel(new INinjectModule[] { new ProductionModule(), new ProductioniOSModule() });
 			LoadApplication(new App());
 
 			return base.FinishedLaunching(app, options);

@@ -9,7 +9,6 @@ namespace LightSwitch
 
 		public App()
 		{
-			Initialize();
 			InitializeComponent();
 
 			var navService = Container.Get<INavigationService>();
@@ -17,12 +16,6 @@ namespace LightSwitch
 			var navPage = ((NavigationService)navService).Bootstrap();
 			navPage.CurrentPage.BindingContext = Container.Get<MainPageViewModel>();
 			MainPage = navPage;
-		}
-
-		public static void Initialize()
-		{
-			var kernel = new StandardKernel(new ProductionModule());
-			Container = kernel;
 		}
 
 		public static void AssociateViewModels(INavigationService service)

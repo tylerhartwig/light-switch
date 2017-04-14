@@ -28,7 +28,6 @@ namespace LightSwitch.iOS.UnitTests
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			// We need this to ensure the execution assembly is part of the app bundle
-			App.Container = new Ninject.StandardKernel(new UnitTestModule());
 
 			AddExecutionAssembly(typeof(ExtensibilityPointFactory).Assembly);
 
@@ -39,6 +38,7 @@ namespace LightSwitch.iOS.UnitTests
 			// become part of the app bundle
 			//AddTestAssembly(typeof(PortableTests).Assembly);
 
+			App.Container = new Ninject.StandardKernel(new UnitTestModule());
 #if false
 			// you can use the default or set your own custom writer (e.g. save to web site and tweet it ;-)
 			Writer = new TcpTextWriter ("10.0.1.2", 16384);

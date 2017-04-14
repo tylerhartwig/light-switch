@@ -17,7 +17,7 @@ namespace LightSwitch
 			{
 				if (_database == null)
 				{
-					var dbPath = DependencyService.Get<IDatabaseHelper>().GetDatabasePath(databaseName);
+					var dbPath = databaseHelper.GetDatabasePath(databaseName);
 					_database = new SQLiteAsyncConnection(dbPath);
 				}
 
@@ -27,6 +27,9 @@ namespace LightSwitch
 
 		private static DatabaseService instance;
 		public static DatabaseService Instance
+		IDatabaseHelper databaseHelper;
+
+		public DatabaseService(IDatabaseHelper databaseHelper) 
 		{
 			get
 			{
@@ -36,6 +39,7 @@ namespace LightSwitch
 				}
 				return instance;
 			}
+			this.databaseHelper = databaseHelper;
 		}
 
 		private DatabaseService() { }
