@@ -30,12 +30,9 @@ class AddLightBulbPage < Calabash::IBase
   end
 
   def fill_in_fields_with_light_bulb(light_bulb)
-    fill_in_name light_bulb[:name]
-    fill_in_message light_bulb[:message]
-    light_bulb[:contacts].split(',').each do |contact|
-      contact.chomp!
-      add_contact(contact)
-    end
+    fill_in_name light_bulb.name
+    fill_in_message light_bulb.message
+    light_bulb.contacts.each { |contact| add_contact(contact) } unless light_bulb.contacts.nil?
   end
 
   def fill_in_name (name)
