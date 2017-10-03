@@ -1,19 +1,26 @@
-require 'calabash-cucumber/ibase'
-
-class LightBulbPage < Calabash::IBase
-  def title
-    "Light Bulbs"
+class LightBulbPage < BasePage
+  def identifier
+    text_exact "Light Bulbs"
   end
 
   def add_button
-    "view marked: '+'"
+    button '+'
   end
 
   def press_add_light_bulb
-    touch add_button
+    add_button.click
   end
 
-  def verify_light_bulb_exists(light_bulb_name)
-    wait_for_element_exists "view marked:'#{light_bulb_name}'"
+  def verify_light_bulb(light_bulb_name, should_be_present = true)
+    light_bulb_element = wait { find_exact light_bulb_name }
+    if should_be_present
+      wait_true { exists { light_bulb_element } }
+    else
+      wait_true { !exists { light_bulb_element } }
+    end
+  end
+
+  def remove(light_bulb)
+    throw Cucumber::Pending
   end
 end

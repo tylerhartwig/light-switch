@@ -35,6 +35,17 @@ namespace LightSwitch.iOS
 			databaseService.InitializeAsync().Wait();
 			return new NSString("0");
 		}
+
+		[Export("addLightBulb:")]
+		public NSString addLightBulb(NSString value)
+		{
+			var lightBulb = new LightBulb { Name = value };
+			var databaseService = App.Container.Get<IDatabaseService>();
+			databaseService.InitializeAsync().Wait();
+			databaseService.AddLightBulbAsync(lightBulb).Wait();
+
+			return new NSString("0");
+		}
 #endif
 	}
 }

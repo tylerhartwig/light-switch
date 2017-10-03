@@ -1,1 +1,3 @@
-ios: PLATFORM=ios -r features/support -r features/support/patches -r features/ios/support -r features/ios/pages -r features/step_definitions
+support: -r features/support -r features/step_definitions
+ios_support: -r features/ios/support -r features/ios/pages --profile support
+ios_sim: DEVICE='iOS Simulator' --profile ios_support

@@ -1,11 +1,34 @@
-# Requiring this file will import:
-# * the Calabash Cucumber API,
-# * the Calabash Cucumber predefined Steps,
-# * and the Calabash::Formatters::Html cucumber formatter.
-require "calabash-cucumber/cucumber"
+require 'rspec/expectations'
+require 'appium_lib'
+require 'cucumber/ast'
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'light_switch')
 
-# To use Calabash without the predefined Calabash Steps, uncomment these
-# three lines and delete the require above.
-# require "calabash-cucumber/wait_helpers"
-# require "calabash-cucumber/operations"
-# World(Calabash::Cucumber::Operations)
+# Custom world object
+class AppiumWorld
+end
+
+device_identifier = ENV['DEVICE']
+
+if device_identifier=='iOS Simulator'
+  caps = Appium.load_appium_txt file: File.expand_path("./../../device_config/#{device_identifier}.txt",__FILE__), verbose: true
+else
+  caps = Appium.load_appium_txt file: File.expand_path("./../../../default_device_config.txt",__FILE__), verbose: true
+end
+
+Appium::Driver.new(caps)
+Appium.promote_appium_methods AppiumWorld
+
+module PageLoader
+  def page(page_class)
+    Appium.promote_appium_methods page_class
+    page_realized = page_class.new $driver
+  end
+end
+
+World { AppiumWorld.new }
+
+World(PageLoader)
+World(LightBulbHelper)
+
+Before { $driver.start_driver }
+After { $driver.driver_quit }

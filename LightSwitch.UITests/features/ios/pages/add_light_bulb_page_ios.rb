@@ -1,16 +1,14 @@
-require 'calabash-cucumber/ibase'
-
-class AddLightBulbPage < Calabash::IBase
-  def title
-    "Edit Light Bulb"
+class AddLightBulbPage < BasePage
+  def identifier
+    text_exact "Edit Light Bulb"
   end
 
   def name_field
-    "UITextField"
+    first_textfield
   end
 
   def message_field
-    "UITextView"
+    first_ele "XCUIElementTypeTextView"
   end
 
   def add_contact_button
@@ -22,40 +20,44 @@ class AddLightBulbPage < Calabash::IBase
   end
 
   def save_button
-    "view marked:'Save'"
+    button 'Save'
   end
 
   def save_light_bulb
-    wait_tap save_button
+    save_button.click
   end
 
   def fill_in_fields_with_light_bulb(light_bulb)
-    fill_in_name light_bulb.name
-    fill_in_message light_bulb.message
-    light_bulb.contacts.each { |contact| add_contact(contact) } unless light_bulb.contacts.nil?
+    name_field.type light_bulb.name
+    message_field.type light_bulb.message
+    # light_bulb.contacts.each { |contact| add_contact(contact) } unless light_bulb.contacts.nil?
   end
 
   def fill_in_name (name)
-    wait_tap name_field
-    keyboard_enter_text name
-    hide_keyboard_for_view name_field
+    throw Cucumber::Pending
+    # wait_tap name_field
+    # keyboard_enter_text name
+    # hide_keyboard_for_view name_field
   end
 
   def fill_in_message (message)
-    wait_tap message_field
-    keyboard_enter_text message
-    hide_keyboard_for_view message_field
+    throw Cucumber::Pending
+    # wait_tap message_field
+    # keyboard_enter_text message
+    # hide_keyboard_for_view message_field
   end
 
   def add_contact(contact)
-    wait_tap add_contact_button
-    wait_tap "view marked:'#{contact}'"
-    wait_tap done_button, transition_duration: 1
-    wait_for_transition trait
-    check_element_exists "view marked: '#{contact}'"
+    throw Cucumber::Pending
+    # wait_tap add_contact_button
+    # wait_tap "view marked:'#{contact}'"
+    # wait_tap done_button, transition_duration: 1
+    # wait_for_transition trait
+    # check_element_exists "view marked: '#{contact}'"
   end
 
   def hide_keyboard_for_view(view)
-    query "#{view} isFirstResponder:1", :resignFirstResponder
+    throw Cucumber::Pending
+    # query "#{view} isFirstResponder:1", :resignFirstResponder
   end
 end

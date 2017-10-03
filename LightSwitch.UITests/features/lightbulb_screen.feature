@@ -6,7 +6,10 @@ Feature: Light Bulb management
 
   Scenario: User is able to add a new Light Bulb
     Given I am on the Light Bulb screen
-    When I add the following Light Bulb
-      | name          | message                              | contacts       |
-      | Stealing Cars | Help man, I feel like stealing a car | John Appleseed |
-    Then I should see a Light Bulb titled "Stealing Cars" on the list
+    When I add a Light Bulb with name "Stealing Cars"
+    Then I should see a Light Bulb titled "Stealing Cars"
+
+  Scenario: User is able to delete an already existing Light Bulb
+    Given A Light Bulb with name "Stealing Cars" exists
+    When I remove the "Stealing Cars" Light Bulb
+    Then I should not see a Light Bulb titled "Stealing Cars"
