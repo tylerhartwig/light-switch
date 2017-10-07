@@ -1,6 +1,0 @@
-[caps]
-platformName = "ios"
-deviceName = "iPhone 7"
-platformVersion = "10.3"
-app = "../iOS/bin/iPhoneSimulator/Debug/device-builds/iphone9.1-10.2/LightSwitch.iOS.app"
-automationName = "XCUITest"

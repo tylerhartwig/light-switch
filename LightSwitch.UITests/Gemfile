@@ -1,9 +1,10 @@
 source "https://rubygems.org"
 
-gem 'appium_lib'
+gem 'appium_lib', '9.7.1'
 gem 'rest-client'
 gem 'rspec'
 gem 'cucumber'
 gem 'rspec-expectations'
 gem 'spec'
+gem 'activesupport'
 gem 'factory_girl'

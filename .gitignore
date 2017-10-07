@@ -49,3 +49,6 @@ Thumbs.db
 
 # Cucumber
 *.png
+
+# Visual Studio
+.vs/

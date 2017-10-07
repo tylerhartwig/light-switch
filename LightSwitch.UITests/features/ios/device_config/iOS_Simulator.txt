@@ -1,0 +1,9 @@
+[caps]
+platformName = "ios"
+deviceName = "iPhone 7"
+platformVersion = "11.0"
+app = "/Users/tylerhartwig/Public/Build/LightSwitch.iOS.app"
+automationName = "XCUITest"
+
+[appium_lib]
+server_url = "http://192.168.1.67:4723/wd/hub"
